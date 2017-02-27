@@ -20,6 +20,7 @@ $(function() {
         }
         bodyToReplace.replaceWith($(tbody));
 
+        var myVar = null;
         myVar.property = 2;
     }
 

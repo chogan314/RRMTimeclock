@@ -24,10 +24,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $query = <<<EOT
             SELECT
                 event_id,
-                punch_time
+                punch_time,
                 last_name,
                 first_name,
                 username,
+                events.community_service,
                 group_size,
                 punch_type,
                 department_name,
@@ -54,10 +55,11 @@ EOT;
         $query = <<<EOT
             SELECT
                 event_id,
-                punch_time
+                punch_time,
                 last_name,
                 first_name,
                 username,
+                events.community_service,
                 group_size,
                 punch_type,
                 department_name,
@@ -83,6 +85,7 @@ EOT;
 
     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
         $dateTime = new DateTime($row['punch_time']);
+        $punch = $row['punch_type'] == "punch-in" ? "In" : "Out";
 
         $responseRow = [];
         $responseRow['id'] = $row['event_id'];
@@ -91,8 +94,8 @@ EOT;
         $responseRow['username'] = $row['username'];
         $responseRow['group-size'] = $row['group_size'];
         $responseRow['community-service'] = $row['community_service'] ? 'Yes' : 'No';
-        $responseRow['punch-type'] = $row['punch-type'];
-        $responseRow['time'] = $startTime->format("h:i A");
+        $responseRow['punch-type'] = $punch;
+        $responseRow['time'] = $dateTime->format("h:i A");
         $responseRow['department'] = $row['department_name'];
         $responseRow['assignment'] = $row['assignment_name'];
         $response[] = $responseRow;

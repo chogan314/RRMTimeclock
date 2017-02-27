@@ -87,7 +87,6 @@ $(function() {
 
     popupCreateButton.click(function() {
         var formData = $(popupForm).serialize();
-
         $.ajax({
             type: 'POST',
             url: "hours-cru-create.php",
@@ -103,7 +102,6 @@ $(function() {
 
     popupEditButton.click(function() {
         var formData = $(popupForm).serialize();
-
         $.ajax({
             type: 'POST',
             url: "hours-cru-update.php",
@@ -155,6 +153,8 @@ $(function() {
                     $('#popup-group-size-input').val($('#row-' + index + '-group-size').text());
                     $('#popup-punch-type-select').val($('#row-' + index + '-punch-type').text());
                     $('#popup-time-input').val(convertTo24Hour($('#row-' + index + '-time').text()));
+                    $('#popup-department-select').val(departmentIds[$('#row-' + index + '-department').text()]);
+                    $('#popup-assignment-select').val(assignmentIds[$('#row-' + index + '-assignment').text()]);
 
                     popup.css('display', 'block');
                 });

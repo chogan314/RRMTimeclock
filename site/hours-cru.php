@@ -179,8 +179,8 @@ if ($result) {
     $assignmentIdsJSON = json_encode($assignmentIds);
     echo <<<EOT
     <script>
-        var departmentIds = JSON.parse({$departmentIdsJSON});
-        var assignmentIds = JSON.parse({$assignmentIdsJSON});
+        var departmentIds = {$departmentIdsJSON};
+        var assignmentIds = {$assignmentIdsJSON};
     </script>
 EOT
     ?>
