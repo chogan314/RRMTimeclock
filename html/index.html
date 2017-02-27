@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="content">
+        <div>
+            <form class="column" id="register-form" action="../php/register_user.php" method="post">
+                <div>REGISTER</div>
+                <label for="first-name">Enter first name: </label>
+                <input type="text" name="first-name" id="first-name">
+                <label for="last-name">Enter last name: </label>
+                <input type="text" name="last-name" id="last-name">
+                <label for="create-username">Enter username: </label>
+                <input type="text" name="create-username" id="create-username">
+                <label for="create-password">Enter password: </label>
+                <input type="text" name="create-password" id="create-password">
+                <label for="confirm-password">Confirm password: </label>
+                <input type="text" name="confirm-password" id="confirm-password">
+                <button type="submit">Submit</button>
+                <div id="register-confirm"></div>
+            </form>
+        </div>
+        <div>
+            <form class="column" id="punch-form" action="../php/handle_punch.php" method="post">
+                <div>PUNCH</div>
+                <label for="username">Username: </label>
+                <input type="text" name="username" id="username">
+                <label for="password">Password: </label>
+                <input type="text" name="password" id="password">
+                <div>Punch in:</div>
+                <input type="radio" name="punch-status" id="punch-in" value="punch-in">
+                <div>Punch out:</div>
+                <input type="radio" name="punch-status" id="punch-out" value="punch-out">
+                <button type="submit">Submit</button>
+                <div id="punch-confirm"></div>
+            </form>
+        </div>
+        <div class="column">
+            <a href="view.html">Go to view</a>
+        </div>
+    </div>
+    <script src="jquery-3.1.1.min.js"></script>
+    <script src="register.js"></script>
+    <script src="punch.js"></script>
+</body>
+</html>

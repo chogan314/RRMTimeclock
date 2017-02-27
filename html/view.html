@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="view.css">
+</head>
+<body>
+    <div id="content">
+        <div id="header">
+            <form action="../php/get_view.php" method="get" id="view-form">
+                <input list="names-list" name="name"></input>
+                <datalist id="names-list"></datalist>
+                <input type="date" name="start-date" id="start-date"> 
+                <input type="date" name="end-date" id="end-date">
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+        <div id="results">
+            <table id="results-table">
+            <tr>
+                <th>Name</th>
+                <th>Hours</th>
+            </tr>
+            <div id="results-table-dynamic">
+            </div>
+            </table>
+        </div>
+        <div id="debug"></div>
+    </div>
+    <script src="jquery-3.1.1.min.js"></script>
+    <script src="get-names.js"></script>
+    <script src="get-view.js"></script>
+</body>
+</html>

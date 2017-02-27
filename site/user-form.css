@@ -1,0 +1,198 @@
+th {
+    color: white;
+    background: rgb(3, 169, 245);
+    border-bottom: 3px solid lightskyblue;
+    font-size: 23px;
+    font-weight: 400;
+    padding: 20px 20px 20px 10px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+td {
+    padding: 10px 20px 10px 10px;
+    text-align: left;
+    vertical-align: middle;
+    font-weight: 300;
+    font-size: 19px;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+#rhs {
+    min-width: 400px;
+    max-width: 400px;
+    min-height: 400px;
+    max-height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-right: 0;
+}
+
+#rhs>form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#logout {
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+#rhs select {
+    border: none;
+    border-bottom: 1px solid #C1C3D1;
+}
+
+#rhs select:hover {
+    border-bottom: 1px solid rgb(3, 169, 245);
+}
+
+#rhs select:focus {
+    border-bottom: 1px solid rgb(3, 169, 245);
+    outline: none;
+    box-shadow: none;
+}
+
+#rhs select,
+select * {
+    font-size: 24px;
+}
+
+#role-select {
+    margin-bottom: 30px;
+}
+
+.submit-button {
+    margin-top: 30px;
+    width: 60%;
+    height: 40px;
+    line-height: 40px;
+    background: rgb(3, 169, 245);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    text-align: center;
+}
+
+#punch-out-button {
+    display: none;
+}
+
+h1 {
+    margin-bottom: 55px;
+    text-align: center;
+    font-size: 24px;
+}
+
+#lhs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#total-hours {
+    border-top: 2px solid #C1C3D1;
+}
+
+#date-selection {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#date-selection div {
+    font-family: inherit;
+    font-size: 24px;
+}
+
+#date-selection * {
+    margin: 10px;
+}
+
+#date-selection input[type="date"] {
+    font-size: 18px;
+    border: none;
+    border-bottom: 1px solid #C1C3D1;
+}
+
+#date-selection input[type="date"]:hover {
+    border-bottom: 1px solid rgb(3, 169, 245);
+}
+
+#date-selection input[type="date"]:focus {
+    border-bottom: 1px solid rgb(3, 169, 245);
+    border-radius: 0;
+    outline: none;
+    box-shadow: none;
+}
+
+#refresh {
+    background: rgb(3, 169, 245);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 10px;
+}
+
+.input-item {
+    border: none;
+    border-bottom: 1px solid #C1C3D1;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.input-item:hover {
+    border-bottom: 1px solid rgb(3, 169, 245);
+}
+
+.input-item:focus {
+    border-bottom: 1px solid rgb(3, 169, 245);
+    outline: none;
+    box-shadow: none;
+}
+
+#group-size {
+    text-align: center;
+    width: 140px;
+}
+
+@media (max-width: 1024px) {
+    #sub-container {
+        flex-direction: column;
+    }
+
+    #sub-container>* {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 1024px) {
+    #rhs-container {
+        width: 100%;
+        order: -1;
+    }
+}
+
+@media (max-width: 1024px) {
+    #rhs {
+        min-height: 300px;
+        max-height: 300px;
+        min-width: 100%;
+        max-width: 100%;
+        margin-bottom: 0;
+    }
+}

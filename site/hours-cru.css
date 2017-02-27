@@ -1,0 +1,17 @@
+#filter-form {
+    justify-content: space-around;
+    align-items: center;
+}
+
+#popup-record-id {
+    display: none;
+}
+
+#popup-edit-header {
+    display: none;
+    margin-top: 20px;
+}
+
+#popup-edit-button {
+    display: none;
+}

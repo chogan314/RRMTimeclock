@@ -1,0 +1,94 @@
+<?php
+// session_start();
+// if (!isset($_SESSION['admin-username'])) {
+//     header("Location: admin-signin.html");
+//     exit();
+// }
+
+require_once('mysqli_connect.php');
+require_once('utils.php');
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    /* Input:
+        $date:              non-empty, valid date format
+        $username:          non-empty
+        $groupSize:         non-empty, number
+        $communityService
+        $punchType:         non-empty, (values: punch-in, punch-out)
+        $time:              non-empty, valid time format
+        $department:        non-empty, values from db
+        $assignment:        non-empty, values from db
+
+        Invalid input behavior: 400 response code + die()
+    */
+
+    $date = sanitizeInput(getPostParam("date"), $dbc);
+    $username = sanitizeInput(getPostParam("username"), $dbc);
+    $groupSize = sanitizeInput(getPostParam("group-size"), $dbc);
+    $communityService = sanitizeInput(getPostParam("community-service"), $dbc);
+    $punchType = sanitizeInput(getPostParam("punch-type"), $dbc) == "In" ? "punch-in" : "punch-out";
+    $time = sanitizeInput(getPostParam("time"), $dbc);
+    $departmentId = sanitizeInput(getPostParam("department"), $dbc);
+    $assignmentId = sanitizeInput(getPostParam("assignment"), $dbc);
+    $volunteerId = 0;
+
+    $query = "SELECT * FROM departments WHERE department_id = '{$departmentId}';";
+    $result = mysqli_query($dbc, $query);
+    if (!$result) {
+        die($query."<br/><br/>".mysqli_error($dbc));
+    }
+    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    if (!$row) {
+        http_response_code(200);
+        echo "Invalid department";
+        die();
+    }
+
+    $query = "SELECT * FROM assignments WHERE assignment_id = '{$assignmentId}';";
+    $result = mysqli_query($dbc, $query);
+    if (!$result) {
+        die($query."<br/><br/>".mysqli_error($dbc));
+    }
+    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    if (!$row) {
+        http_response_code(200);
+        echo "Invalid assignment";
+        die();
+    }
+
+    $query = "SELECT volunteer_id FROM volunteers WHERE username = '{$username}';";
+    $result = mysqli_query($dbc, $query);
+    if (!$result) {
+        die($query."<br/><br/>".mysqli_error($dbc));
+    }
+    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    if (!$row) {
+        http_response_code(200);
+        echo "Invalid username";
+        die();
+    } else {
+        $volunteerId = $row["volunteer_id"];
+    }
+
+    $format = 'Y-m-d H:i';
+    $dateTime = DateTime::createFromFormat($format, $date . " " . $time);
+    $punchTime = $dateTime->format("Y-m-d H:i:s");
+
+    $cs = (int)($communityService == 1);
+
+    $query = <<<EOT
+        INSERT INTO events
+        (punch_type, punch_time, community_service, group_size, department_id, assignment_id, volunteer_id)
+        VALUES  ('{$punchType}', '{$punchTime}', {$cs}, {$groupSize}, {$departmentId}, {$assignmentId}, {$volunteerId}); 
+EOT;
+    $result = mysqli_query($dbc, $query);
+    if (!$result) {
+        die($query."<br/><br/>".mysqli_error($dbc));
+    } else {
+        http_response_code(200);
+        echo "Punch event created";
+    }
+}
+
+mysqli_close($dbc);
+?>

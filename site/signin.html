@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sign In</title>
+    <link rel="stylesheet" href="signin.css">
+</head>
+
+<body>
+    <div id="content">
+        <div id="box">
+            <h1>RRM Timesheet Sign In</h1>
+            <form action="validate-user.php" method="post" id="signin-form">
+                <input type="text" name="username" class="text-input" id="username" placeholder="Username">
+                <input type="password" name="password" class="text-input" id="password" placeholder="Password">
+                <input type="submit" value="Submit" id="submit">
+            </form>
+            <div id="error-message">Incorrect username or password</div>
+        </div>
+    </div>
+    <script src="jquery-3.1.1.min.js"></script>
+    <script>
+        var form = $('#signin-form');
+        $(form).submit(function(event) {
+            event.preventDefault();
+
+            var formData = $(form).serialize();
+            $.ajax({
+                type: 'POST',
+                url: $(form).attr('action'),
+                data: formData
+            }).done(function(response) {
+                window.location = response;
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                debugger;
+                if (jqXHR) {
+                    $('#error-message').text(jqXHR.responseText);
+                } else {
+                    $('#error-message').text("Server error");   
+                }
+                $('#error-message').css('display', 'block');
+                $('#password').val("");
+            });
+        });
+    </script>
+</body>
+
+</html>
