@@ -28,6 +28,12 @@ function convertTo24Hour(timeString) {
 
 $(function() {
     var filterForm = $('#filter-form');
+    var popup = $('#popup');
+    var createButton = $('#open-create-popup');
+    var popupCancelButton = $('#popup-cancel-button');
+    var popupCreateButton = $('#popup-create-button');
+    var popupEditButton = $('#popup-edit-button');
+    var popupForm = $('#popup-form');
 
     function submitFilterForm() {
         var formData = $(filterForm).serialize();
@@ -37,23 +43,22 @@ $(function() {
             url: $(filterForm).attr('action'),
             data: formData
         }).done(function(response) {
-            debugger;
             var tData = JSON.parse(response);
             populateTable(tData, $("#result-body"));
         }).fail(function(data) {
-            debugger;
             // todo
         });
     }
 
+    function validateFilterForm() {
+        // todo
+        return false;
+    }    
+
     $(filterForm).submit(function(event) {
         event.preventDefault();
         submitFilterForm();
-    });
-
-    var popup = $('#popup');
-    var createButton = $('#open-create-popup');
-    var popupCancelButton = $('#popup-cancel-button');
+    });    
     
     createButton.click(function() {
         $('#popup-create-header').css('display', 'block');
@@ -68,7 +73,7 @@ $(function() {
         $('#popup-date-input').val("");
         $('#popup-name-input').val("");
         $('#popup-username-input').val("");
-        $('#popup-cs-checkbox').prop('checked', false);
+        $('#popup-cs-select').val("default");
         $('#popup-group-size-input').val("");
         $('#popup-punch-type-select').val("default");
         $('#popup-time-input').val("");
@@ -81,10 +86,6 @@ $(function() {
         clearPopup();
     });
 
-    var popupCreateButton = $('#popup-create-button');
-    var popupEditButton = $('#popup-edit-button');
-    var popupForm = $('#popup-form');
-
     popupCreateButton.click(function() {
         var formData = $(popupForm).serialize();
         $.ajax({
@@ -93,7 +94,11 @@ $(function() {
             data: formData
         }).done(function(response) {
             debugger;
-            // submitFilterForm();
+            if (validateFilterForm()) {
+                submitFilterForm();
+            }
+            popup.css('display', 'none');
+            clearPopup();
         }).fail(function(data) {
             debugger;
             // todo
@@ -107,8 +112,14 @@ $(function() {
             url: "hours-cru-update.php",
             data: formData
         }).done(function(response) {
-            submitFilterForm();
+            debugger;
+            if (validateFilterForm()) {
+                submitFilterForm();
+            }
+            popup.css('display', 'none');
+            clearPopup();
         }).fail(function(data) {
+            debugger;
             // todo
         });
     });
@@ -118,7 +129,7 @@ $(function() {
         tbody.setAttribute("id", "result-body");
 
         var rowCount = 0;
-        for (key in tableData) {
+        for (var key in tableData) {
             var row = tableData[key];
             var tr = document.createElement("tr");
             tbody.appendChild(tr);
@@ -149,7 +160,7 @@ $(function() {
                     $('#popup-date-input').val(convertToYMD($('#row-' + index + '-date').text()));
                     $('#popup-name-input').val($('#row-' + index + '-name').text());
                     $('#popup-username-input').val($('#row-' + index + '-username').text());
-                    $('#popup-cs-checkbox').prop('checked', $('#row-' + index + '-community-service').text().toUpperCase() == "YES");
+                    $('#popup-cs-select').val($('#row-' + index + '-community-service').text().toLowerCase());
                     $('#popup-group-size-input').val($('#row-' + index + '-group-size').text());
                     $('#popup-punch-type-select').val($('#row-' + index + '-punch-type').text());
                     $('#popup-time-input').val(convertTo24Hour($('#row-' + index + '-time').text()));

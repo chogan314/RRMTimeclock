@@ -22,20 +22,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         Invalid input behavior: 400 response code + die()
     */
 
-    $id = sanitizeInput(getPostParam("id"));
-    $date = sanitizeInput(getPostParam("date"));
-    $username = sanitizeInput(getPostParam("username"));
-    $groupSize = sanitizeInput(getPostParam("group-size"));
-    $communityService = sanitizeInput(getPostParam("community-service"));
-    $punchType = sanitizeInput(getPostParam("punch-type"));
-    $time = sanitizeInput(getPostParam("time"));
-    $department = sanitizeInput(getPostParam("department"));
-    $assignment = sanitizeInput(getPostParam("assignment"));
-    $departmentId = 0;
-    $assignmentId = 0;
+    $id = sanitizeInput(getPostParam("record-id"), $dbc);
+    $date = sanitizeInput(getPostParam("date"), $dbc);
+    $username = sanitizeInput(getPostParam("username"), $dbc);
+    $groupSize = sanitizeInput(getPostParam("group-size"), $dbc);
+    $communityService = sanitizeInput(getPostParam("community-service"), $dbc);
+    $punchType = sanitizeInput(getPostParam("punch-type"), $dbc) == "In" ? "punch-in" : "punch-out";
+    $time = sanitizeInput(getPostParam("time"), $dbc);
+    $departmentId = sanitizeInput(getPostParam("department"), $dbc);
+    $assignmentId = sanitizeInput(getPostParam("assignment"), $dbc);
     $volunteerId = 0;
 
-    $query = "SELECT department_id FROM departments WHERE department_name = '{$department}';";
+    // check if department exists
+    $query = "SELECT * FROM departments WHERE department_id = '{$departmentId}';";
     $result = mysqli_query($dbc, $query);
     if (!$result) {
         die($query."<br/><br/>".mysqli_error($dbc));
@@ -45,11 +44,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         http_response_code(200);
         echo "Invalid department";
         die();
-    } else {
-        $departmentId = $row["department_id"];
     }
 
-    $query = "SELECT assignment_id FROM assignments WHERE assignment_name = '{$assignment}';";
+    // check if assignment exists
+    $query = "SELECT * FROM assignments WHERE assignment_id = '{$assignmentId}';";
     $result = mysqli_query($dbc, $query);
     if (!$result) {
         die($query."<br/><br/>".mysqli_error($dbc));
@@ -59,10 +57,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         http_response_code(200);
         echo "Invalid assignment";
         die();
-    } else {
-        $assignmentId = $row["assignment_id"];
     }
 
+    // check if username exists
     $query = "SELECT volunteer_id FROM volunteers WHERE username = '{$username}';";
     $result = mysqli_query($dbc, $query);
     if (!$result) {
@@ -77,20 +74,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $volunteerId = $row["volunteer_id"];
     }
 
+    // get community service value
+    $cs = 0;
+    if ($communityService == "yes") {
+        $cs = 1;
+    } else if ($communityService == "no") {
+        $cs = 0;
+    } else {
+        // get community service value from volunteer data
+        $query = "SELECT community_service FROM volunteers WHERE volunteer_id = {$volunteerId};";
+        $result = mysqli_query($dbc, $query);
+        if (!$result) {
+            die($query."<br/><br/>".mysqli_error($dbc));
+        }
+        $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+        $cs = $row["community_service"];
+    }
+
     $format = 'Y-m-d H:i';
     $dateTime = DateTime::createFromFormat($format, $date . " " . $time);
     $punchTime = $dateTime->format("Y-m-d H:i:s");
 
     $query = <<<EOT
         UPDATE events
-        SET punch_type = '{$punchType}'
-            punch_time = '{$punchTime}'
-            community_service = '{$communityService}'
-            group_size = '{$communityService}'
-            department_id = '{$departmentId}'
-            assignment_id = '{$assignmentId}'
-            volunteer_id = '{$volunteerId}'
-        WHERE event_id = '{$id}';
+        SET punch_type = '{$punchType}',
+            punch_time = '{$punchTime}',
+            community_service = {$cs},
+            group_size = {$groupSize},
+            department_id = {$departmentId},
+            assignment_id = {$assignmentId},
+            volunteer_id = {$volunteerId}
+        WHERE event_id = {$id};
 EOT;
 
     $result = mysqli_query($dbc, $query);

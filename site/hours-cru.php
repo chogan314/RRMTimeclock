@@ -99,8 +99,8 @@ if ($result) {
                 <form action="" method="post" class="section popup-form" id="popup-form">
                     <div class="row">
                         <div class="column">
-                            <h1 id="popup-create-header">Create Punch Record</h1>
-                            <h1 id="popup-edit-header">Update Punch Record</h1>
+                            <h1 id="popup-create-header" align="center">Create Punch Record</h1>
+                            <h1 id="popup-edit-header" align="center">Update Punch Record</h1>
                             <input type="text" name="record-id" id="popup-record-id"></input>
                             <!--Date Input id="popup-date-input"-->
                             <div class="row"><div>Date:</div><input class="input-item" type="date" id="popup-date-input" name="date"></div>
@@ -127,8 +127,16 @@ if ($result) {
                                 <option value="Microsoft Edge">
                             </datalist>
 
-                            <!--Community Service checkbox id="popup-cs-checkbox"-->
-                            <div class="row"><div>Community Service:</div><input type="checkbox" value="1" name="cs-checkbox" id="popup-cs-checkbox"></div>
+                            <!--Community Service Input id="popup-cs-select"-->
+                            <div class="row">
+                                <div>Community Service:</div>
+                                <select name="community-service" class="input-item" id="popup-cs-select">
+                                    <option value="default" disabled selected>Select</option>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                    <option value="use-default">Use volunteer default</option>
+                                </select>
+                            </div>
                             
                             <!--Group Size Input id="popup-group-size-input"-->
                             <input type="text" class="input-item" placeholder="Group size" name="group-size" id="popup-group-size-input">

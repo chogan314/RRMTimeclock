@@ -32,6 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $assignmentId = sanitizeInput(getPostParam("assignment"), $dbc);
     $volunteerId = 0;
 
+    // check if department exists
     $query = "SELECT * FROM departments WHERE department_id = '{$departmentId}';";
     $result = mysqli_query($dbc, $query);
     if (!$result) {
@@ -43,7 +44,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Invalid department";
         die();
     }
-
+    
+    // check if assignment exists
     $query = "SELECT * FROM assignments WHERE assignment_id = '{$assignmentId}';";
     $result = mysqli_query($dbc, $query);
     if (!$result) {
@@ -56,6 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die();
     }
 
+    // check if username exists
     $query = "SELECT volunteer_id FROM volunteers WHERE username = '{$username}';";
     $result = mysqli_query($dbc, $query);
     if (!$result) {
@@ -70,11 +73,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $volunteerId = $row["volunteer_id"];
     }
 
+    // get community service value
+    $cs = 0;
+    if ($communityService == "yes") {
+        $cs = 1;
+    } else if ($communityService == "no") {
+        $cs = 0;
+    } else {
+        // get community service value from volunteer data
+        $query = "SELECT community_service FROM volunteers WHERE volunteer_id = {$volunteerId};";
+        $result = mysqli_query($dbc, $query);
+        if (!$result) {
+            die($query."<br/><br/>".mysqli_error($dbc));
+        }
+        $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+        $cs = $row["community_service"];
+    }
+
     $format = 'Y-m-d H:i';
     $dateTime = DateTime::createFromFormat($format, $date . " " . $time);
     $punchTime = $dateTime->format("Y-m-d H:i:s");
-
-    $cs = (int)($communityService == 1);
 
     $query = <<<EOT
         INSERT INTO events

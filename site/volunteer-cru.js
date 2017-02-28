@@ -44,6 +44,11 @@ $(function() {
         });
     }
 
+    function validateFilterForm() {
+        // todo
+        return false;
+    }
+
     $(filterForm).submit(function(event) {
         event.preventDefault();
         submitFilterForm();
@@ -76,17 +81,18 @@ $(function() {
     var popupForm = $('#popup-form');
 
     popupCreateButton.click(function() {
-        debugger;
-        var formData = $(popupForm).serialize();
-
+        var formData = $(popupForm).serialize();     
         $.ajax({
             type: 'POST',
             url: "volunteer-cru-create.php",
             data: formData
         }).done(function(response) {
             debugger;
-            $('#debug').val(response);
-            submitFilterForm();
+            if (validateFilterForm) {
+                submitFilterForm();
+            }
+            popup.css('display', 'none');
+            clearPopup();
         }).fail(function(data) {
             debugger;
             // todo
@@ -95,14 +101,17 @@ $(function() {
 
     popupEditButton.click(function() {
         var formData = $(popupForm).serialize();
-
         $.ajax({
             type: 'POST',
             url: "volunteer-cru-update.php",
             data: formData
         }).done(function(response) {
             debugger;
-            submitFilterForm();
+            if (validateFilterForm) {
+                submitFilterForm();
+            }
+            popup.css('display', 'none');
+            clearPopup();
         }).fail(function(data) {
             debugger;
             // todo
