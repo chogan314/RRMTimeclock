@@ -66,14 +66,18 @@ $(function() {
         popup.css('display', 'block');
     });
 
-    popupCancelButton.click(function() {
-        popup.css('display', 'none');
+    function clearPopup() {
         $('#popup-record-id').val("");
         $('#popup-lastname-input').val("");
         $('#popup-firstname-input').val("");
         $('#popup-community-service-cb').prop('checked', false);
         $('#popup-username-input').val("");
         $('#popup-password-input').val("");
+    }
+
+    popupCancelButton.click(function() {
+        popup.css('display', 'none');
+        clearPopup();
     });
 
     var popupCreateButton = $('#popup-create-button');
@@ -87,14 +91,12 @@ $(function() {
             url: "volunteer-cru-create.php",
             data: formData
         }).done(function(response) {
-            debugger;
-            if (validateFilterForm) {
+            if (validateFilterForm()) {
                 submitFilterForm();
             }
             popup.css('display', 'none');
             clearPopup();
         }).fail(function(data) {
-            debugger;
             // todo
         });
     });
@@ -106,14 +108,12 @@ $(function() {
             url: "volunteer-cru-update.php",
             data: formData
         }).done(function(response) {
-            debugger;
-            if (validateFilterForm) {
+            if (validateFilterForm()) {
                 submitFilterForm();
             }
             popup.css('display', 'none');
             clearPopup();
         }).fail(function(data) {
-            debugger;
             // todo
         });
     });
