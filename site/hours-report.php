@@ -11,7 +11,7 @@
 <body>
     <div id="content">
         <div class="column">
-            <form class="section row row-form" id="filter-form" action="get_hours_report.php" method="get">
+            <form class="section row row-form" id="filter-form" action="hours-report-get.php" method="get">
                 <div>Showing results for</div>
                 <input type="date" name="start-date" class="input-item" id="start-date">
                 <div>to</div>
@@ -29,7 +29,6 @@
                 </datalist>
                 <input type="submit" value="Refresh" class="input-button" id="refresh">
             </form>
-            <div class="section" id="test"></div>
             <div class="section">
                 <table class="hide-first-column">
                     <thead>
@@ -37,59 +36,16 @@
                             <th>Date</th>
                             <th>Name</th>
                             <th>Username</th>
-                            <th>Group</th>
-                            <th>Service</th>
+                            <th>Department</th>
+                            <th>Assignment</th>
+                            <th>Group Size</th>
+                            <th>Community Service</th>
                             <th>In</th>
                             <th>Out</th>
                             <th>Hours</th>
-                            <th>Assignment</th>
                         </tr>
                     </thead>
                     <tbody id="result-body">
-                        <tr>
-                            <td>2/1/17</td>
-                            <td>Lastname, Firstnamealskjdflk</td>
-                            <td>lFirst</td>
-                            <td>1</td>
-                            <td>No</td>
-                            <td>9:00</td>
-                            <td>5:00</td>
-                            <td>8</td>
-                            <td>Assignment</td>
-                        </tr>
-                        <tr>
-                            <td>2/1/17</td>
-                            <td>Last, First</td>
-                            <td>lFirst</td>
-                            <td>1</td>
-                            <td>No</td>
-                            <td>9:00</td>
-                            <td>5:00</td>
-                            <td>8</td>
-                            <td>Assignment</td>
-                        </tr>
-                        <tr>
-                            <td>2/1/17</td>
-                            <td>Last, First</td>
-                            <td>lFirst</td>
-                            <td>1</td>
-                            <td>No</td>
-                            <td>9:00</td>
-                            <td>5:00</td>
-                            <td>8</td>
-                            <td>Assignment</td>
-                        </tr>
-                        <tr>
-                            <td>2/1/17</td>
-                            <td>Last, First</td>
-                            <td>lFirst</td>
-                            <td>2</td>
-                            <td>No</td>
-                            <td>9:00</td>
-                            <td>5:00</td>
-                            <td>8</td>
-                            <td>Assignment</td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -98,19 +54,19 @@
                     <tbody>
                         <tr>
                             <td>Total volunteers:</td>
-                            <td>500</td>
+                            <td id="total-volunteers"></td>
                         </tr>
                             <td>Unique volunteers:</td>
-                            <td>500</td>
+                            <td id="unique-volunteers"></td>
                         </tr>
                             <td>Community service hours:</td>
-                            <td>500</td>
+                            <td id="cs-hours"></td>
                         </tr>
                             <td>Non-Community service hours:</td>
-                            <td>500</td>
+                            <td id="non-cs-hours"></td>
                         </tr>
                             <td>Total volunteer hours:</td>
-                            <td>500</td>                            
+                            <td id="total-volunteer-hours"></td>                            
                         </tr>
                     </tbody>
                 <table>

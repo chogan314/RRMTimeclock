@@ -25,9 +25,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 punch_time,
                 events.community_service,
                 group_size,
-                assignment
-            FROM events INNER JOIN volunteers 
-            ON events.volunteer_id = volunteers.volunteer_id
+                department_name,
+                assignment_name
+            FROM events
+                INNER JOIN volunteers ON events.volunteer_id = volunteers.volunteer_id
+                INNER JOIN departments ON events.department_id = departments.department_id
+                INNER JOIN assignments ON events.assignment_id = assignments.assignment_id
             WHERE punch_time <= '$endDate'
             AND punch_time >= '$startDate'
             ORDER BY username DESC, punch_time DESC
@@ -51,9 +54,12 @@ EOT;
                 punch_time,
                 events.community_service,
                 group_size,
-                assignment
-            FROM events INNER JOIN volunteers 
-            ON events.volunteer_id = volunteers.volunteer_id
+                department_name,
+                assignment_name
+            FROM events
+                INNER JOIN volunteers ON events.volunteer_id = volunteers.volunteer_id
+                INNER JOIN departments ON events.department_id = departments.department_id
+                INNER JOIN assignments ON events.assignment_id = assignments.assignment_id
             WHERE last_name = '$lastName'
             AND first_name = '$firstName'
             AND punch_time <= '$endDate'
@@ -88,7 +94,7 @@ EOT;
             break;
         }
 
-        if ($next['username'] != $row['username']) {
+        if ($next['volunteer_id'] != $row['volunteer_id']) {
             $row = $next;
             continue;
         }
@@ -104,7 +110,8 @@ EOT;
         $communityService = $next['community_service'];
         $startTime = new DateTime($next['punch_time']);
         $stopTime = new DateTime($row['punch_time']);
-        $hours = $stopTime->diff($startTime)->h;
+        $timeDiff = $startTime->diff($stopTime);
+        $hours = $timeDiff->h + ($timeDiff->i / 60);
 
         $hoursAcc += $groupSize * $hours;
         if($communityService) {
@@ -117,17 +124,27 @@ EOT;
         $responseRow['date'] = $startTime->format("m-d-Y");
         $responseRow['name'] = $row['last_name'] . ', ' . $row['first_name'];
         $responseRow['username'] = $row['username'];
+        $responseRow['department'] = $row['department_name'];
+        $responseRow['assignment'] = $row['assignment_name'];
         $responseRow['groupSize'] = $groupSize;
         $responseRow['communityService'] = $communityService ? 'Yes' : 'No';
         $responseRow['in'] = $startTime->format("h:i A");
         $responseRow['out'] = $stopTime->format("h:i A");
-        $responseRow['hours'] = $hours;
-        $responseRow['assignment'] = $row['assignment'];
+        $responseRow['hours'] = number_format($hours, 2, '.', '');
         $response[] = $responseRow;
+
+        $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
     }
 
+    $reportFinal['tdata'] = $response;
+    $reportFinal['totalVolunteers'] = $volunteersAcc;
+    $reportFinal['uniqueVolunteers'] = count($volunteersSet);
+    $reportFinal['communityServiceHours'] = number_format($csHoursAcc, 2, '.', '');
+    $reportFinal['nonCommunityServiceHours'] = number_format($hoursAcc - $csHoursAcc, 2, '.', '');
+    $reportFinal['totalHours'] = number_format($hoursAcc, 2, '.', '');
+
     http_response_code(200);
-    echo json_encode($response);
+    echo json_encode($reportFinal);
 }
 
 mysqli_close($dbc);
