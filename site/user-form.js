@@ -1,4 +1,7 @@
 $(function() {
+
+    $('#user-welcome').text("Welcome " + volunteerFirstName + " " + volunteerLastName);
+
     function resetFilterRange() {
         var today = moment().format("YYYY-MM-DD");
         var thirtyDaysAgo = moment().subtract(30, 'days').format("YYYY-MM-DD");
@@ -16,6 +19,7 @@ $(function() {
             url: $(filterForm).attr('action'),
             data: formData
         }).done(function(response) {
+            debugger;
             var tData = JSON.parse(response);
             populateTable(tData, $("#result-body"));
         }).fail(function(data) {
@@ -32,9 +36,10 @@ $(function() {
         var tbody = document.createElement("tbody");
         tbody.setAttribute("id", "result-body");
 
+        var tData = tableData.tData;
         var rowCount = 0;
-        for (key in tableData) {
-            var row = tableData[key];
+        for (key in tData) {
+            var row = tData[key];
             var tr = document.createElement("tr");
             tbody.appendChild(tr);
             Object.keys(row).forEach(function(key) {
@@ -53,10 +58,10 @@ $(function() {
         tbody.appendChild(tr);
         var td = document.createElement("td");
         td.innerHTML = "Total Hours:";
-        td.colSpan = 4;
+        td.colSpan = 5;
         tr.appendChild(td);
         td = document.createElement("td");
-        td.innerHTML = "100";
+        td.innerHTML = tableData.totalHours;
         tr.appendChild(td);
 
         bodyToReplace.replaceWith($(tbody));
@@ -75,23 +80,23 @@ $(function() {
 
     resetFilterRange();
 
-    var tData = [
-        {
-            "event": "Punch Out",
-            "assignment": "Testing",
-            "date": "07-22-2002",
-            "time": "8:00 PM",
-            "hours": "4",
-        },
-        {
-            "event": "Punch In",
-            "assignment": "Testing",
-            "date": "07-22-2002",
-            "time": "4:00 PM",
-            "hours": "",
-        }
-    ];
+    // var tData = [
+    //     {
+    //         "event": "Punch Out",
+    //         "assignment": "Testing",
+    //         "date": "07-22-2002",
+    //         "time": "8:00 PM",
+    //         "hours": "4",
+    //     },
+    //     {
+    //         "event": "Punch In",
+    //         "assignment": "Testing",
+    //         "date": "07-22-2002",
+    //         "time": "4:00 PM",
+    //         "hours": "",
+    //     }
+    // ];
 
-    populateTable(tData, $('#result-body'));
+    // populateTable(tData, $('#result-body'));
 
 });

@@ -4,6 +4,25 @@ if (!isset($_SESSION['username'])) {
     header("Location: signin.html");
     exit();
 }
+
+require_once('mysqli_connect.php');
+require_once('utils.php');
+
+$username = $_SESSION['username'];
+$query = "SELECT volunteer_id, last_name, first_name FROM volunteers WHERE username = '{$username}';";
+$result = mysqli_query($dbc, $query);
+$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+$lastName = $row['last_name'];
+$firstName = $row['first_name'];
+$volunteerId = $row['volunteer_id'];
+
+$punchedOut = true;
+$query = "SELECT punch_type FROM events WHERE volunteer_id = '{$volunteerId}';";
+$result = mysqli_query($dbc, $query);
+$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+if (!$row || $row['punch_type'] == "punch-out") {
+    $punchedOut = false;
+}
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +39,7 @@ if (!isset($_SESSION['username'])) {
     <div id="content">
         <div class="row" id="sub-container">
             <div class="column">
-                <form action="get_volunteer_hours.php" class="section" id="date-selection">
+                <form action="user-form-filter.php" class="section" id="date-selection">
                     <div>Showing results for</div>
                     <input type="date" name="start-date" id="start-date">
                     <div>to</div>
@@ -32,6 +51,7 @@ if (!isset($_SESSION['username'])) {
                         <thead>
                             <tr>
                                 <th>Event</th>
+                                <th>Department</th>
                                 <th>Assignment</th>
                                 <th>Date</th>
                                 <th>Time</th>
@@ -39,80 +59,13 @@ if (!isset($_SESSION['username'])) {
                             </tr>
                         </thead>
                         <tbody id="result-body">
-                            <tr>
-                                <td>Punch In</td>
-                                <td>Service Service Service</td>
-                                <td>1/29/17</td>
-                                <td>9:00</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <td>Punch Out</td>
-                                <td>Service</td>
-                                <td>1/29/17</td>
-                                <td>9:00</td>
-                                <td>5.45</td>
-                            </tr>
-                            <tr>
-                                <td>Punch In</td>
-                                <td>Service</td>
-                                <td>1/29/17</td>
-                                <td>9:00</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <td>Punch Out</td>
-                                <td>Service</td>
-                                <td>1/29/17</td>
-                                <td>9:00</td>
-                                <td>8.29</td>
-                            </tr>
-                            <tr>
-                                <td>Punch In</td>
-                                <td>Service</td>
-                                <td>1/29/17</td>
-                                <td>9:00</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <td>Punch Out</td>
-                                <td>Service</td>
-                                <td>1/29/17</td>
-                                <td>9:00</td>
-                                <td>5.45</td>
-                            </tr>
-                            <tr>
-                                <td>Punch In</td>
-                                <td>Service</td>
-                                <td>1/29/17</td>
-                                <td>9:00</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <td>Punch Out</td>
-                                <td>Service</td>
-                                <td>1/29/17</td>
-                                <td>9:00</td>
-                                <td>8.29</td>
-                            </tr>
-                            <tr>
-                                <td>Punch In</td>
-                                <td>Service</td>
-                                <td>1/29/17</td>
-                                <td>9:00</td>
-                                <td>-</td>
-                            </tr>
-                            <tr id="total-hours">
-                                <td>Total Hours:</td>
-                                <td class="text-right" colspan="4">200.82</td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
             <div class="column" id="rhs-container">
                 <div class="section" id="rhs">
-                    <h1>Welcome, Your Name Here.</h1>
+                    <h1 id="user-welcome">Welcome, Your Name Here.</h1>
                     <form action="volunteer_punch.php" method="post">
                         <select name="cars" id="role-select">
                             <option value="" disabled selected>Select your assignment</option>
@@ -133,6 +86,15 @@ if (!isset($_SESSION['username'])) {
     </div>
     <script src="jquery-3.1.1.min.js"></script>
     <script src="moment.js"></script>
+    <?php
+    echo <<<EOT
+    <script>
+        var volunteerLastName = '{$lastName}';
+        var volunteerFirstName = '{$firstName}';
+        var puchedOut = {$punchedOut};
+    </script>
+EOT;
+    ?>
     <script src="user-form.js"></script>
 </body>
 
