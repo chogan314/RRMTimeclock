@@ -30,8 +30,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die();
     }
 
+    $volunteerId = $row['volunteer_id'];
     session_start();
     $_SESSION["username"] = $username;
+    $_SESSION["id"] = $volunteerId;
     http_response_code(200);
     echo "user-form.php";
 }

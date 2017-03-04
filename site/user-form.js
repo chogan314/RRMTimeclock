@@ -2,6 +2,29 @@ $(function() {
 
     $('#user-welcome').text("Welcome " + volunteerFirstName + " " + volunteerLastName);
 
+    function selectForm() {
+        if (punchedIn) {
+            $.ajax({
+                type: 'GET',
+                url: 'get_department_assignment.php'
+            }).done(function(response) {
+                var data = JSON.parse(response);
+                $('#current-department').text("Current department: " + data.department);
+                $('#current-assignment').text("Current assignment: " + data.assignment);
+            }).fail(function(data) {
+                // todo
+            });
+
+            $('#punch-in-container').hide();
+            $('#punch-out-container').show();
+        } else {
+            $('#punch-in-container').show();
+            $('#punch-out-container').hide();
+        }
+    }
+
+    selectForm();
+
     function resetFilterRange() {
         var today = moment().format("YYYY-MM-DD");
         var thirtyDaysAgo = moment().subtract(30, 'days').format("YYYY-MM-DD");
@@ -19,7 +42,6 @@ $(function() {
             url: $(filterForm).attr('action'),
             data: formData
         }).done(function(response) {
-            debugger;
             var tData = JSON.parse(response);
             populateTable(tData, $("#result-body"));
         }).fail(function(data) {
@@ -78,7 +100,46 @@ $(function() {
         });
     });
 
+    var punchInForm = $('#punch-in-form');
+    $(punchInForm).submit(function(event) {
+        event.preventDefault();
+        var formData = $(punchInForm).serialize();
+
+        $.ajax({
+            type: 'POST',
+            url: $(punchInForm).attr('action'),
+            data: formData
+        }).done(function(response) {
+            punchedIn = true;
+            selectForm();
+            resetFilterRange();
+            submitFilterForm();
+        }).fail(function(data) {
+            // todo
+        });
+    });
+
+    var punchOutForm = $('#punch-out-form');
+    $(punchOutForm).submit(function(event) {
+        event.preventDefault();
+        var formData = $(punchOutForm).serialize();
+
+        $.ajax({
+            type: 'POST',
+            url: $(punchOutForm).attr('action'),
+            data: formData
+        }).done(function(response) {
+            punchedIn = false;
+            selectForm();
+            resetFilterRange();
+            submitFilterForm();
+        }).fail(function(data) {
+            // todo
+        });
+    });
+
     resetFilterRange();
+    submitFilterForm();
 
     // var tData = [
     //     {

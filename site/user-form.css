@@ -25,11 +25,7 @@ td {
     text-align: right;
 }
 
-#rhs {
-    min-width: 400px;
-    max-width: 400px;
-    min-height: 400px;
-    max-height: 400px;
+/*#rhs {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -42,10 +38,18 @@ td {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+}*/
+
+.center {
+    align-items: center;
+}
+
+.center>* {
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 #logout {
-    margin-top: 10px;
     cursor: pointer;
 }
 
@@ -69,12 +73,17 @@ select * {
     font-size: 24px;
 }
 
-#role-select {
-    margin-bottom: 30px;
+#rhs form label {
+    margin-right: 10px;
 }
 
+/*#role-select {
+    margin-bottom: 30px;
+}*/
+
 .submit-button {
-    margin-top: 30px;
+    /*margin-top: 30px;*/
+    margin-bottom: 0px;
     width: 60%;
     height: 40px;
     line-height: 40px;
@@ -86,12 +95,15 @@ select * {
     text-align: center;
 }
 
-#punch-out-button {
+/*#punch-out-button {
     display: none;
-}
+}*/
+
+/*#punch-out-container {
+    display: none;
+}*/
 
 h1 {
-    margin-bottom: 55px;
     text-align: center;
     font-size: 24px;
 }
@@ -169,6 +181,11 @@ h1 {
     width: 140px;
 }
 
+#group-size-text {
+    width: 60px;
+    text-align: center;
+}
+
 @media (max-width: 1024px) {
     #sub-container {
         flex-direction: column;
@@ -189,8 +206,6 @@ h1 {
 
 @media (max-width: 1024px) {
     #rhs {
-        min-height: 300px;
-        max-height: 300px;
         min-width: 100%;
         max-width: 100%;
         margin-bottom: 0;

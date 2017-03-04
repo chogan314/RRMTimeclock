@@ -111,7 +111,7 @@ EOT;
         $startTime = new DateTime($next['punch_time']);
         $stopTime = new DateTime($row['punch_time']);
         $timeDiff = $startTime->diff($stopTime);
-        $hours = $timeDiff->h + ($timeDiff->i / 60);
+        $hours = $timeDiff->d * 24 + $timeDiff->h + ($timeDiff->i / 60);
 
         $hoursAcc += $groupSize * $hours;
         if($communityService) {

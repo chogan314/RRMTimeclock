@@ -24,8 +24,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             INNER JOIN departments ON events.department_id = departments.department_id
             INNER JOIN assignments ON events.assignment_id = assignments.assignment_id
         WHERE username = '$username'
-        AND punch_time <= '$endDate'
-        AND punch_time >= '$startDate'
+        AND DATE(punch_time) <= '$endDate'
+        AND DATE(punch_time) >= '$startDate'
         ORDER BY punch_time DESC
 EOT;
 
@@ -60,7 +60,7 @@ EOT;
         $startTime = new DateTime($next['punch_time']);
         $stopTime = new DateTime($row['punch_time']);
         $timeDiff = $startTime->diff($stopTime);
-        $hours = $timeDiff->h + ($timeDiff->i / 60);
+        $hours = $timeDiff->d * 24 + $timeDiff->h + ($timeDiff->i / 60);
         $hoursAcc += $hours;
 
         $responseRow['event'] = 'Punch Out';

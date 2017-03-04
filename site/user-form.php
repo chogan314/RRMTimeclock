@@ -11,18 +11,54 @@ require_once('utils.php');
 $username = $_SESSION['username'];
 $query = "SELECT volunteer_id, last_name, first_name FROM volunteers WHERE username = '{$username}';";
 $result = mysqli_query($dbc, $query);
+if (!$result) {
+    die($query."<br/><br/>".mysqli_error($dbc));
+}
+
 $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 $lastName = $row['last_name'];
 $firstName = $row['first_name'];
 $volunteerId = $row['volunteer_id'];
 
-$punchedOut = true;
-$query = "SELECT punch_type FROM events WHERE volunteer_id = '{$volunteerId}';";
+$punchedIn = true;
+$currentDepartment;
+$currentAssignment;
+$currentGroupSize;
+$query = "SELECT punch_time, punch_type, department_id, assignment_id, group_size FROM events WHERE volunteer_id = '{$volunteerId}' ORDER BY punch_time DESC;";
 $result = mysqli_query($dbc, $query);
+if (!$result) {
+    die($query."<br/><br/>".mysqli_error($dbc));
+}
 $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 if (!$row || $row['punch_type'] == "punch-out") {
-    $punchedOut = false;
+    $punchedIn = false;
+} else {
+    $currentDepartment = $row['department_id'];
+    $currentAssignment = $row['assignment_id'];
+    $currentGroupSize = $row['group_size'];
 }
+
+$departments = [];
+$assignments = [];
+
+$query = "SELECT department_id, department_name FROM departments";
+$result = mysqli_query($dbc, $query);
+if (!$result) {
+    die($query."<br/><br/>".mysqli_error($dbc));
+}
+while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+    $departments[$row['department_id']] = $row['department_name'];
+}
+
+$query = "SELECT assignment_id, assignment_name FROM assignments";
+$result = mysqli_query($dbc, $query);
+if (!$result) {
+    die($query."<br/><br/>".mysqli_error($dbc));
+}
+while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+    $assignments[$row['assignment_id']] = $row['assignment_name'];
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -64,21 +100,40 @@ if (!$row || $row['punch_type'] == "punch-out") {
                 </div>
             </div>
             <div class="column" id="rhs-container">
-                <div class="section" id="rhs">
+                <div class="section column center" id="rhs">
                     <h1 id="user-welcome">Welcome, Your Name Here.</h1>
-                    <form action="volunteer_punch.php" method="post">
-                        <select name="cars" id="role-select">
-                            <option value="" disabled selected>Select your assignment</option>
-                            <!--todo: get assignments-->
-                            <option value="volvo">Volvo</option>
-                            <option value="saab">Saab</option>
-                            <option value="fiat">Fiat</option>
-                            <option value="audi">Audi</option>
-                        </select>
-                        <!--<input type="text" class="input-item" value="test">-->
-                        <div class="submit-button" id="punch-in-button">Punch In</div>
-                        <div class="submit-button" id="punch-out-button">Punch Out</div>
-                    </form>
+                    <div id="punch-in-container">
+                        <form id="punch-in-form" class="column center" action="user_punch_in.php" method="post">
+                            <select name="department" id="department-select">
+                            <option value="default" disabled selected>Select your department</option>
+                            <?php
+                            foreach ($departments as $id => $name) {
+                                    echo '<option value="' . $id . '">' . $name . '</option>';
+                                }
+                            ?>
+                            </select>
+                            <select name="assignment" id="assignment-select">
+                                <option value="default" disabled selected>Select your assignment</option>
+                                <?php
+                                foreach ($assignments as $id => $name) {
+                                        echo '<option value="' . $id . '">' . $name . '</option>';
+                                    }
+                                ?>
+                            </select>
+                            <div class="row">
+                                <div>Group size:</div>
+                                <input type="text" name="group-size" id="group-size-text" class="input-item" placeholder="#">
+                            </div>
+                            <input type="submit" class="submit-button" id="punch-in-button" value="Punch In">
+                        </form>
+                    </div>
+                    <div id="punch-out-container">
+                        <form id="punch-out-form" class="column center" action="user_punch_out.php" method="post">
+                            <div id="current-department"></div>
+                            <div id="current-assignment"></div>
+                            <input type="submit" class="submit-button" id="punch-out-button" value="Punch Out">
+                        </form>
+                    </div>       
                     <div id="logout">Logout</div>
                 </div>
             </div>
@@ -87,11 +142,12 @@ if (!$row || $row['punch_type'] == "punch-out") {
     <script src="jquery-3.1.1.min.js"></script>
     <script src="moment.js"></script>
     <?php
+    $punchedInInt = (int)$punchedIn;
     echo <<<EOT
     <script>
         var volunteerLastName = '{$lastName}';
         var volunteerFirstName = '{$firstName}';
-        var puchedOut = {$punchedOut};
+        var punchedIn = $punchedInInt;
     </script>
 EOT;
     ?>
