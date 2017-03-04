@@ -101,3 +101,10 @@ h1 {
     color: red;
     display: none;
 }
+
+#temp {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    background-color: antiquewhite;
+}
