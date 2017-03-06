@@ -27,9 +27,9 @@ $(function() {
 
     function resetFilterRange() {
         var today = moment().format("YYYY-MM-DD");
-        var thirtyDaysAgo = moment().subtract(30, 'days').format("YYYY-MM-DD");
+        // var thirtyDaysAgo = moment().subtract(30, 'days').format("YYYY-MM-DD");
         $('#stop-date').val(today);
-        $('#start-date').val(thirtyDaysAgo);
+        $('#start-date').val(today);
     }
 
     var filterForm = $('#date-selection');
