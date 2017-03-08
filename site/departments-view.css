@@ -1,0 +1,16 @@
+#create-form {
+    justify-content: center;
+    align-items: center;
+}
+
+#create-form>* {
+    margin: 10px;
+}
+
+#popup {
+    display: none;
+}
+
+#popup-record-id {
+    display: none;
+}
