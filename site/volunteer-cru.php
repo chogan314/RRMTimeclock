@@ -18,6 +18,10 @@ if (!isset($_SESSION['admin-id'])) {
 <body>
     <div id="content">
         <div class="column">
+            <div class="row section row-menu">
+                <a href="admin.php" class="input-button">Back</a>
+                <a href="admin-signout.php" class="input-button">Signout</a>
+            </div>
             <form action="volunteer-cru-filter.php" class="row section row-form" id="filter-form">
                 <div>Showing results for</div>
                 <input list="names-list" name="name" class="input-item" id="names-input" autocomplete="off" placeholder="Lastname, Firstname"></input>

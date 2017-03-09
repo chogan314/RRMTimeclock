@@ -18,6 +18,10 @@ html {
     text-rendering: optimizeLegibility;
 }
 
+a {
+    text-decoration: none;
+}
+
 #content {
     display: flex;
     justify-content: center;
@@ -225,4 +229,17 @@ row-form>div {
 
 .create-record-section>*:first-child {
     font-size: 20px;
+}
+
+.row-menu {
+    align-items: center;
+    justify-content: space-around;
+}
+
+.row-menu>* {
+    margin: 10px;
+}
+
+.row-menu>.input-button {
+    width: 160px;
 }

@@ -20,6 +20,10 @@ if (!isset($_SESSION['admin-id'])) {
 <body>
     <div id="content">
         <div class="column">
+            <div class="row section row-menu">
+                <a href="admin.php" class="input-button">Back</a>
+                <a href="admin-signout.php" class="input-button">Signout</a>
+            </div>
             <form action="departments-view-create.php" class="row section create-record-section" id="create-form">
                 <div>Create new department record:</div>
                 <input class="input-item" type="text" name="department-name" id="record-name" placeholder="Department name">

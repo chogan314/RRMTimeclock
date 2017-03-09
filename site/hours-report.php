@@ -20,6 +20,10 @@ if (!isset($_SESSION['admin-id'])) {
 <body>
     <div id="content">
         <div class="column">
+            <div class="row section row-menu">
+                <a href="admin.php" class="input-button">Back</a>
+                <a href="admin-signout.php" class="input-button">Signout</a>
+            </div>
             <form class="section row row-form" id="filter-form" action="hours-report-get.php" method="get">
                 <div>Showing results for</div>
                 <input type="date" name="start-date" class="input-item" id="start-date">
