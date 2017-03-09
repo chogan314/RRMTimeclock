@@ -1,9 +1,9 @@
 <?php
-// session_start();
-// if (!isset($_SESSION['admin-username'])) {
-//     header("Location: admin-signin.html");
-//     exit();
-// }
+session_start();
+if (!isset($_SESSION['admin-id'])) {
+    header("Location: admin-signin.php");
+    exit();
+}
 
 require_once('mysqli_connect.php');
 require_once('utils.php');
