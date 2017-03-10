@@ -6,7 +6,7 @@ $(function() {
         if (punchedIn) {
             $.ajax({
                 type: 'GET',
-                url: 'get_department_assignment.php'
+                url: 'user-form-departments-assignments.php'
             }).done(function(response) {
                 var data = JSON.parse(response);
                 $('#current-department').text("Current department: " + data.department);

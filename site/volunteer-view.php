@@ -13,7 +13,7 @@ if (!isset($_SESSION['admin-id'])) {
     <meta charset="UTF-8">
     <title>Volunteers View</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="volunteer-cru.css">
+    <link rel="stylesheet" href="volunteer-view.css">
 </head>
 <body>
     <div id="content">
@@ -22,7 +22,7 @@ if (!isset($_SESSION['admin-id'])) {
                 <a href="admin.php" class="input-button">Back</a>
                 <a href="admin-signout.php" class="input-button">Signout</a>
             </div>
-            <form action="volunteer-cru-filter.php" class="row section row-form" id="filter-form">
+            <form action="volunteer-view-filter.php" class="row section row-form" id="filter-form">
                 <div>Showing results for</div>
                 <input list="names-list" name="name" class="input-item" id="names-input" autocomplete="off" placeholder="Lastname, Firstname"></input>
                 <datalist id="names-list">
@@ -92,6 +92,6 @@ if (!isset($_SESSION['admin-id'])) {
         </div>
     </div>
     <script src="jquery-3.1.1.min.js"></script>
-    <script src="volunteer-cru.js"></script>
+    <script src="volunteer-view.js"></script>
 </body>
 </html>

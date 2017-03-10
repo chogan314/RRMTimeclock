@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     
     $query = "";
 
-    if ($name == "*") {
+    if ($name == "*" || $name == "") {
         $query = <<<EOT
             SELECT
                 volunteer_id,
@@ -33,6 +33,17 @@ EOT;
         $splitName = splitName($name);
         $lastName = $splitName[0];
         $firstName = $splitName[1];
+
+        if (!validateName($lastName, true)) {
+            http_response_code(400);
+            echo "lastName";
+            die();
+        }
+        if (!validateName($firstName, true)) {
+            http_response_code(400);
+            echo "firstName";
+            die();
+        }
 
         $query = <<<EOT
             SELECT

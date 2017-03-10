@@ -28,12 +28,6 @@ function convertTo24Hour(timeString) {
 
 $(function() {
     var filterForm = $('#filter-form');
-    var popup = $('#popup');
-    var createButton = $('#open-create-popup');
-    var popupCancelButton = $('#popup-cancel-button');
-    var popupCreateButton = $('#popup-create-button');
-    var popupEditButton = $('#popup-edit-button');
-    var popupForm = $('#popup-form');
 
     function submitFilterForm() {
         var formData = $(filterForm).serialize();
@@ -53,12 +47,16 @@ $(function() {
     function validateFilterForm() {
         // todo
         return false;
-    }    
+    }
 
     $(filterForm).submit(function(event) {
         event.preventDefault();
         submitFilterForm();
-    });    
+    });
+
+    var popup = $('#popup');
+    var createButton = $('#open-create-popup');
+    var popupCancelButton = $('#popup-cancel-button');
     
     createButton.click(function() {
         $('#popup-create-header').css('display', 'block');
@@ -70,15 +68,11 @@ $(function() {
 
     function clearPopup() {
         $('#popup-record-id').val("");
-        $('#popup-date-input').val("");
-        $('#popup-name-input').val("");
+        $('#popup-lastname-input').val("");
+        $('#popup-firstname-input').val("");
+        $('#popup-community-service-cb').prop('checked', false);
         $('#popup-username-input').val("");
-        $('#popup-cs-select').val("default");
-        $('#popup-group-size-input').val("");
-        $('#popup-punch-type-select').val("default");
-        $('#popup-time-input').val("");
-        $('#popup-department-select').val("default");
-        $('#popup-assignment-select').val("default");
+        $('#popup-password-input').val("");
     }
 
     popupCancelButton.click(function() {
@@ -86,21 +80,23 @@ $(function() {
         clearPopup();
     });
 
+    var popupCreateButton = $('#popup-create-button');
+    var popupEditButton = $('#popup-edit-button');
+    var popupForm = $('#popup-form');
+
     popupCreateButton.click(function() {
-        var formData = $(popupForm).serialize();
+        var formData = $(popupForm).serialize();     
         $.ajax({
             type: 'POST',
-            url: "hours-cru-create.php",
+            url: "volunteer-view-create.php",
             data: formData
         }).done(function(response) {
-            debugger;
             if (validateFilterForm()) {
                 submitFilterForm();
             }
             popup.css('display', 'none');
             clearPopup();
         }).fail(function(data) {
-            debugger;
             // todo
         });
     });
@@ -109,17 +105,15 @@ $(function() {
         var formData = $(popupForm).serialize();
         $.ajax({
             type: 'POST',
-            url: "hours-cru-update.php",
+            url: "volunteer-view-update.php",
             data: formData
         }).done(function(response) {
-            debugger;
             if (validateFilterForm()) {
                 submitFilterForm();
             }
             popup.css('display', 'none');
             clearPopup();
         }).fail(function(data) {
-            debugger;
             // todo
         });
     });
@@ -129,7 +123,7 @@ $(function() {
         tbody.setAttribute("id", "result-body");
 
         var rowCount = 0;
-        for (var key in tableData) {
+        for (key in tableData) {
             var row = tableData[key];
             var tr = document.createElement("tr");
             tbody.appendChild(tr);
@@ -157,15 +151,10 @@ $(function() {
                     $('#popup-edit-button').css('display', 'block');
 
                     $('#popup-record-id').val($('#row-' + index + '-id').text());
-                    $('#popup-date-input').val(convertToYMD($('#row-' + index + '-date').text()));
-                    $('#popup-name-input').val($('#row-' + index + '-name').text());
+                    $('#popup-lastname-input').val($('#row-' + index + '-lastname').text());
+                    $('#popup-firstname-input').val($('#row-' + index + '-firstname').text());
+                    $('#popup-community-service-cb').prop('checked', $('#row-' + index + '-community-service').text().toUpperCase() == "YES");
                     $('#popup-username-input').val($('#row-' + index + '-username').text());
-                    $('#popup-cs-select').val($('#row-' + index + '-community-service').text().toLowerCase());
-                    $('#popup-group-size-input').val($('#row-' + index + '-group-size').text());
-                    $('#popup-punch-type-select').val($('#row-' + index + '-punch-type').text());
-                    $('#popup-time-input').val(convertTo24Hour($('#row-' + index + '-time').text()));
-                    $('#popup-department-select').val(departmentIds[$('#row-' + index + '-department').text()]);
-                    $('#popup-assignment-select').val(assignmentIds[$('#row-' + index + '-assignment').text()]);
 
                     popup.css('display', 'block');
                 });
@@ -175,33 +164,4 @@ $(function() {
         }
         bodyToReplace.replaceWith($(tbody));
     }
-
-    // var tData = [
-    //     {
-    //         "id": "12345",
-    //         "date": "06-22-1995",
-    //         "name": "Lastname, Firstname",
-    //         "username": "Lastfirst",
-    //         "group-size": "1",
-    //         "community-service": "No",
-    //         "punch-type": "In",
-    //         "time": "4:30 PM",
-    //         "department": "asdf",
-    //         "assignment": "Testing"
-    //     },
-    //     {
-    //         "id": "12345",
-    //         "date": "06-22-1995",
-    //         "name": "Lastname, Firstname",
-    //         "username": "Lastfirst",
-    //         "group-size": "1",
-    //         "community-service": "Yes",
-    //         "punch-type": "In",
-    //         "time": "4:30 PM",
-    //         "department": "asdf",
-    //         "assignment": "Testing"
-    //     }
-    // ];
-
-    // populateTable(tData, $("#result-body"));
 });

@@ -9,23 +9,35 @@ require_once('mysqli_connect.php');
 require_once('utils.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Behavior on illegal input - http_respose_code(400) and die();
-    // $lastName: empty not allowed
     $lastName = sanitizeInput(getPostParam("last-name"), $dbc);
-
-    // $firstName: empty not allowed
     $firstName = sanitizeInput(getPostParam("first-name"), $dbc);
-
     $communityService = sanitizeInput(getPostParam("community-service"), $dbc);
-
-    // $username: empty not allowed
     $username = sanitizeInput(getPostParam("username"), $dbc);
-
-    // $password: empty not allowed, length >= 8
     $password = sanitizeInput(getPostParam("password"), $dbc);
     $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
-    // 
+    /*
+    *   Input validation
+    */
+    $validationErrors = [];
+    if (!validateName($lastName)) {
+        $validationErrors[] = "lastName";
+    }
+    if (!validateName($firstName)) {
+        $validationErrors[] = "firstName";
+    }
+    if (!validateName($username)) {
+        $validationErrors[] = "username";
+    }
+    if (!validatePassword($password)) {
+        $validationErrors[] = "password";
+    }
+    if (count($validationErrors) > 0) {
+        http_response_code(400);
+        echo json_encode($validationErrors);
+        die();
+    }
+
     $query = "SELECT username FROM volunteers WHERE username='{$username}';";
     $result = mysqli_query($dbc, $query);
 

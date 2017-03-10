@@ -24,7 +24,7 @@ if (!isset($_SESSION['admin-id'])) {
                 <a href="admin.php" class="input-button">Back</a>
                 <a href="admin-signout.php" class="input-button">Signout</a>
             </div>
-            <form class="section row row-form" id="filter-form" action="hours-report-get.php" method="get">
+            <form class="section row row-form" id="filter-form" action="hours-report-filter.php" method="get">
                 <div>Showing results for</div>
                 <input type="date" name="start-date" class="input-item" id="start-date">
                 <div>to</div>

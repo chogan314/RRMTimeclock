@@ -42,7 +42,7 @@ if ($result) {
     <meta charset="UTF-8">
     <title>Hours View</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="hours-cru.css">
+    <link rel="stylesheet" href="hours-view.css">
 </head>
 <body>
     <div id="content">
@@ -51,7 +51,7 @@ if ($result) {
                 <a href="admin.php" class="input-button">Back</a>
                 <a href="admin-signout.php" class="input-button">Signout</a>
             </div>
-            <form action="hours-cru-filter.php" class="row section row-form" id="filter-form">
+            <form action="hours-view-filter.php" class="row section row-form" id="filter-form">
                 <div>Showing results for</div>
                 <input type="date" name="start-date" class="input-item" id="start-date">
                 <div>to</div>
@@ -196,6 +196,6 @@ if ($result) {
     </script>
 EOT
     ?>
-    <script src="hours-cru.js"></script>
+    <script src="hours-view.js"></script>
 </body>
 </html>
