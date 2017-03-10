@@ -13,6 +13,19 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $endDate = sanitizeInput(getGetParam("stop-date"), $dbc);
     $username = $_SESSION['username'];
 
+    $validationErrors = [];
+    if (!validateDate($startDate)) {
+        $validationErrors[] = "startDate";
+    }
+    if (!validateDate($endDate)) {
+        $validationErrors[] = "endDate";
+    }
+    if (count($validationErrors) > 0) {
+        http_response_code(400);
+        echo json_encode($validationErrors);
+        die();
+    }
+
     $query = <<<EOT
         SELECT
             punch_type,

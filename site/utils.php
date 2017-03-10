@@ -59,4 +59,18 @@ function validateTime($time, $allowEmpty = false) {
     return preg_match('/^\d{2}:\d{2}$/', $time) === 1;
 }
 
+function validateNumber($number, $allowEmpty = false) {
+    if ($allowEmpty && $number == "") {
+        return true;
+    }
+    return preg_match('/^\d+$/', $number) === 1;
+}
+
+function validateSplitName($splitName, $allowEmpty = false) {
+    if ($allowEmpty && $splitName == "") {
+        return true;
+    }
+    return preg_match('/^\w{1,60}\s*,\s*\w{1,60}$/', $name) === 1;
+}
+
 ?>

@@ -12,6 +12,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $departmentId = sanitizeInput(getPostParam("id"), $dbc);
     $departmentName = sanitizeInput(getPostParam("department-name"), $dbc);
 
+    if (!validateName($departmentName)) {
+        http_response_code(400);
+        echo "departmentName";
+        die();
+    }
+
     $query = "SELECT department_id, department_name
     FROM departments
     WHERE department_name='{$departmentName}';";

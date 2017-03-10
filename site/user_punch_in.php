@@ -14,6 +14,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $assignmentId = sanitizeInput(getPostParam("assignment"), $dbc);
     $groupSize = sanitizeInput(getPostParam("group-size"), $dbc);
 
+    if (!validateNumber($groupSize)) {
+        http_response_code(400);
+        echo "groupSize";
+        die();
+    }
+
     $query = "SELECT punch_type
                 FROM events
                 WHERE volunteer_id = {$volunteerId}

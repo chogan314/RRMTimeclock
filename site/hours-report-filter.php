@@ -14,7 +14,23 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $name = sanitizeInput(getGetParam("name"), $dbc);
     $query = "";
 
-    if ($name == "*") {
+    $validationErrors = [];
+    if (!validateDate($startDate)) {
+        $validationErrors[] = "startDate";
+    }
+    if (!validateDate($endDate)) {
+        $validationErrors[] = "endDate";
+    }
+    if ($name != "*" && !validateSplitName($name)) {
+        $validationErrors[] = "name";
+    }
+    if (count($validationErrors) > 0) {
+        http_response_code(400);
+        echo json_encode($validationErrors);
+        die();
+    }
+
+    if ($name == "*" || name == "") {
         $query = <<<EOT
             SELECT
                 volunteers.volunteer_id,

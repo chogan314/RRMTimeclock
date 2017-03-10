@@ -140,24 +140,4 @@ $(function() {
 
     resetFilterRange();
     submitFilterForm();
-
-    // var tData = [
-    //     {
-    //         "event": "Punch Out",
-    //         "assignment": "Testing",
-    //         "date": "07-22-2002",
-    //         "time": "8:00 PM",
-    //         "hours": "4",
-    //     },
-    //     {
-    //         "event": "Punch In",
-    //         "assignment": "Testing",
-    //         "date": "07-22-2002",
-    //         "time": "4:00 PM",
-    //         "hours": "",
-    //     }
-    // ];
-
-    // populateTable(tData, $('#result-body'));
-
 });

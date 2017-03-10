@@ -18,6 +18,22 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $stopDate = sanitizeInput(getGetParam("stop-date"), $dbc);
     $name = sanitizeInput(getGetParam("name"), $dbc);
 
+    $validationErrors = [];
+    if (!validateDate($startDate)) {
+        $validationErrors[] = "startDate";
+    }
+    if (!validateDate($stopDate)) {
+        $validationErrors[] = "stopDate";
+    }
+    if ($name != "*" && !validateSplitName($name, true)) {
+        $validationErrors[] = "name";
+    }
+    if (count($validationErrors) > 0) {
+        http_response_code(400);
+        echo json_encode($validationErrors);
+        die();
+    }
+
     $query = '';
 
     if ($name == '*' || $name == '') {

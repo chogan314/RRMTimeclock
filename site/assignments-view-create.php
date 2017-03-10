@@ -11,6 +11,12 @@ require_once('utils.php');
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $assignmentName = sanitizeInput(getPostParam("assignment-name"), $dbc);
 
+    if (!validateName($assignmentName)) {
+        http_response_code(400);
+        echo "assignmentName";
+        die();
+    }
+
     $query = "SELECT * FROM assignments WHERE assignment_name='{$assignmentName}';";
     $result = mysqli_query($dbc, $query);
     if (!$result) {

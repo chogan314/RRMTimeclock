@@ -12,6 +12,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $assignmentId = sanitizeInput(getPostParam("id"), $dbc);
     $assignmentName = sanitizeInput(getPostParam("assignment-name"), $dbc);
 
+    if (!validateName($assignmentName)) {
+        http_response_code(400);
+        echo "assignmentName";
+        die();
+    }
+
     $query = "SELECT assignment_id, assignment_name
     FROM assignments
     WHERE assignment_name='{$assignmentName}';";

@@ -11,6 +11,12 @@ require_once('utils.php');
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $departmentName = sanitizeInput(getPostParam("department-name"), $dbc);
 
+    if (!validateName($departmentName)) {
+        http_response_code(400);
+        echo "departmentName";
+        die();
+    }
+
     $query = "SELECT * FROM departments WHERE department_name='{$departmentName}';";
     $result = mysqli_query($dbc, $query);
     if (!$result) {

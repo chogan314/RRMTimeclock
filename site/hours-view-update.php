@@ -33,6 +33,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $assignmentId = sanitizeInput(getPostParam("assignment"), $dbc);
     $volunteerId = 0;
 
+    $validationErrors = [];
+    if (!validateDate($date)) {
+        $validationErrors[] = "date";
+    }
+    if (!validateName($username)) {
+        $validationErrors[] = "username";
+    }
+    if (!validateNumber($groupSize)) {
+        $validationErrors[] = "groupSize";
+    }
+    if (!validateTime($time)) {
+        $validationErrors[] = "time";
+    }
+    if (count($validationErrors) > 0) {
+        http_response_code(400);
+        echo json_encode($validationErrors);
+        die();
+    }
+
     // check if department exists
     $query = "SELECT * FROM departments WHERE department_id = '{$departmentId}';";
     $result = mysqli_query($dbc, $query);
