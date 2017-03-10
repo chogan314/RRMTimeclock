@@ -70,7 +70,14 @@ function validateSplitName($splitName, $allowEmpty = false) {
     if ($allowEmpty && $splitName == "") {
         return true;
     }
-    return preg_match('/^\w{1,60}\s*,\s*\w{1,60}$/', $name) === 1;
+    return preg_match('/^\w{1,60}\s*,\s*\w{1,60}$/', $splitName) === 1;
+}
+
+function validateNameWithSpaces($name, $allowEmpty = false) {
+    if ($allowEmpty && $name == "") {
+        return true;
+    }
+    return preg_match("/^[\w\s]{1,60}$/", $name) === 1;
 }
 
 ?>

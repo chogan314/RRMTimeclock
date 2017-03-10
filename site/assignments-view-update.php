@@ -12,7 +12,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $assignmentId = sanitizeInput(getPostParam("id"), $dbc);
     $assignmentName = sanitizeInput(getPostParam("assignment-name"), $dbc);
 
-    if (!validateName($assignmentName)) {
+    // echo $assignmentName;
+    // die();
+
+    if (!validateNameWithSpaces($assignmentName)) {
         http_response_code(400);
         echo "assignmentName";
         die();

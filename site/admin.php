@@ -21,10 +21,10 @@ if (!isset($_SESSION['admin-id'])) {
         <div>
             <div class="section column" id="links">
                 <a href="hours-report.php" class="input-item">View Report</a>
-                <a href="volunteer-cru.php" class="input-item">Edit Volunteers</a>
+                <a href="volunteer-view.php" class="input-item">Edit Volunteers</a>
                 <a href="departments-view.php" class="input-item">Edit Departments</a>
                 <a href="assignments-view.php" class="input-item">Edit Assignments</a>
-                <a href="hours-cru.php" class="input-item">Edit Hours</a>
+                <a href="hours-view.php" class="input-item">Edit Hours</a>
                 <a href="admin-signout.php" class="input-item">Logout</a>
             </div>
         </div>

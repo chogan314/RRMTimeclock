@@ -11,7 +11,7 @@ require_once('utils.php');
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $assignmentName = sanitizeInput(getPostParam("assignment-name"), $dbc);
 
-    if (!validateName($assignmentName)) {
+    if (!validateNameWithSpaces($assignmentName)) {
         http_response_code(400);
         echo "assignmentName";
         die();
