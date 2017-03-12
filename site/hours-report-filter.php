@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     if (!validateDate($endDate)) {
         $validationErrors[] = "endDate";
     }
-    if ($name != "*" && !validateSplitName($name)) {
+    if ($name != "*" && !validateSplitName($name, true)) {
         $validationErrors[] = "name";
     }
     if (count($validationErrors) > 0) {
@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         die();
     }
 
-    if ($name == "*" || name == "") {
+    if ($name == "*" || $name == "") {
         $query = <<<EOT
             SELECT
                 volunteers.volunteer_id,
