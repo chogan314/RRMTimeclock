@@ -26,13 +26,6 @@ if (!isset($_SESSION['admin-id'])) {
                 <div>Showing results for</div>
                 <input list="names-list" name="name" class="input-item" id="names-input" autocomplete="off" placeholder="Lastname, Firstname"></input>
                 <datalist id="names-list">
-                    <!--todo: populate list-->
-                    <!--<option value="Chrome">
-                    <option value="Firefox">
-                    <option value="Internet Explorer">
-                    <option value="Opera">
-                    <option value="Safari">
-                    <option value="Microsoft Edge">-->
                 </datalist>
                 <input type="submit" value="Refresh" class="input-button" id="refresh">
             </form>
@@ -65,7 +58,7 @@ if (!isset($_SESSION['admin-id'])) {
                         <div class="column">
                             <h1 id="popup-create-header">Create New Volunteer</h1>
                             <h1 id="popup-edit-header">Update Volunteer</h1>
-                            <input type="text" name="id" id="popup-record-id">
+                            <input type="text" name="id" id="popup-record-id" autocomplete="off" readonly>
 
                             <!--Last name input id="popup-lastname-input"-->
                             <input class="input-item" type="text" name="last-name" autocomplete="off" placeholder="Last name" id="popup-lastname-input">

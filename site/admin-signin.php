@@ -14,7 +14,7 @@
             <form action="admin-validation.php" class="section column" id="admin-signin-form">
                 <h1>RRM Timesheet Admin Signin</h1>
                 <input type="text" name="username" class="input-item" id="username" placeholder="Username" autocomplete="off">
-                <input type="text" name="password" class="input-item" id="password" placeholder="Password" autocomplete="off">
+                <input type="password" name="password" class="input-item" id="password" placeholder="Password" autocomplete="off">
                 <input type="submit" class="input-button" value="Submit">
             </form>
         </div>

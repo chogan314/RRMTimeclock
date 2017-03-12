@@ -122,7 +122,7 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                             </select>
                             <div class="row">
                                 <div>Group size:</div>
-                                <input type="text" name="group-size" id="group-size-text" class="input-item" value="1" placeholder="#">
+                                <input type="text" name="group-size" id="group-size-text" class="input-item" value="1" placeholder="#" autocomplete="off">
                             </div>
                             <input type="submit" class="submit-button" id="punch-in-button" value="Punch In">
                         </form>

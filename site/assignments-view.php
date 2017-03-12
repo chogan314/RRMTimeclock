@@ -26,7 +26,7 @@ if (!isset($_SESSION['admin-id'])) {
             </div>
             <form action="assignments-view-create.php" class="row section create-record-section" id="create-form">
                 <div>Create new assignment record:</div>
-                <input class="input-item" type="text" name="assignment-name" id="record-name" placeholder="Assignment name">
+                <input class="input-item" type="text" name="assignment-name" id="record-name" placeholder="Assignment name" autocomplete="off">
                 <input class="input-button" type="submit" value="Create">
             </form>
             <div class="section">
@@ -50,8 +50,8 @@ if (!isset($_SESSION['admin-id'])) {
                     <div class="row">
                         <div class="column">
                             <h1 id="popup-edit-header">Update Assignment Name</h1>
-                            <input type="text" name="id" id="popup-record-id">
-                            <input class="input-item" type="text" name="assignment-name" autocomplete="off" placeholder="Assignment name" id="popup-assignment-name-input">
+                            <input type="text" name="id" id="popup-record-id" autocomplete="off" readonly>
+                            <input class="input-item" type="text" name="assignment-name" placeholder="Assignment name" id="popup-assignment-name-input" autocomplete="off">
                             
                             <input type="submit" class="input-button" value="Update">
                             <div class="input-button" id="popup-cancel-button">Cancel</div>

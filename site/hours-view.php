@@ -98,7 +98,7 @@ if ($result) {
                         <div class="column">
                             <h1 id="popup-create-header" align="center">Create Punch Record</h1>
                             <h1 id="popup-edit-header" align="center">Update Punch Record</h1>
-                            <input type="text" name="record-id" id="popup-record-id"></input>
+                            <input type="text" name="record-id" id="popup-record-id" autocomplete="off" readonly></input>
                             <!--Date Input id="popup-date-input"-->
                             <div class="row"><div>Date:</div><input class="input-item" type="date" id="popup-date-input" name="date"></div>
                             
@@ -124,7 +124,7 @@ if ($result) {
                             </div>
                             
                             <!--Group Size Input id="popup-group-size-input"-->
-                            <input type="text" class="input-item" placeholder="Group size" name="group-size" id="popup-group-size-input">
+                            <input type="text" class="input-item" placeholder="Group size" name="group-size" id="popup-group-size-input" autocomplete="off">
                             
                             <!--Punch Type Input id="popup-punch-type-select"-->
                             <select name="punch-type" class="input-item" id="popup-punch-type-select">

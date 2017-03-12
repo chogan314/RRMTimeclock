@@ -26,7 +26,7 @@ if (!isset($_SESSION['admin-id'])) {
             </div>
             <form action="departments-view-create.php" class="row section create-record-section" id="create-form">
                 <div>Create new department record:</div>
-                <input class="input-item" type="text" name="department-name" id="record-name" placeholder="Department name">
+                <input class="input-item" type="text" name="department-name" id="record-name" placeholder="Department name" autocomplete="off">
                 <input class="input-button" type="submit" value="Create">
             </form>
             <div class="section">
@@ -50,7 +50,7 @@ if (!isset($_SESSION['admin-id'])) {
                     <div class="row">
                         <div class="column">
                             <h1 id="popup-edit-header">Update Department Name</h1>
-                            <input type="text" name="id" id="popup-record-id">
+                            <input type="text" name="id" id="popup-record-id" autocomplete="off" readonly>
                             <input class="input-item" type="text" name="department-name" autocomplete="off" placeholder="Department name" id="popup-department-name-input">
                             
                             <input type="submit" class="input-button" value="Update">
