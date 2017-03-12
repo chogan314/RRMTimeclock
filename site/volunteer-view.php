@@ -25,7 +25,7 @@ if (!isset($_SESSION['admin-id'])) {
             <form action="volunteer-view-filter.php" class="row section row-form" id="filter-form">
                 <div>Showing results for</div>
                 <input list="names-list" name="name" class="input-item" id="names-input" autocomplete="off" placeholder="Lastname, Firstname"></input>
-                <datalist id="names-list">
+                <datalist id="names-list" autocomplete="off">
                 </datalist>
                 <input type="submit" value="Refresh" class="input-button" id="refresh">
             </form>

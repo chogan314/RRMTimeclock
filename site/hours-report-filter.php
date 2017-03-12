@@ -13,6 +13,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $endDate = sanitizeInput(getGetParam("stop-date"), $dbc);
     $name = sanitizeInput(getGetParam("name"), $dbc);
     $query = "";
+    $usernameSearch = false;
+    $username = "";
 
     $validationErrors = [];
     if (!validateDate($startDate)) {
@@ -21,8 +23,17 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     if (!validateDate($endDate)) {
         $validationErrors[] = "endDate";
     }
-    if ($name != "*" && !validateSplitName($name, true)) {
-        $validationErrors[] = "name";
+    if ($name != "" && $name[0] == ':') {
+        $usernameSearch = true;
+        if (!validateName(substr($name, 1), true)) {
+            $validationErrors[] = "name";
+        } else {
+            $username = substr($name, 1);
+        }
+    } else {
+        if ($name != "*" && !validateSplitName($name, true)) {
+            $validationErrors[] = "name";
+        }
     }
     if (count($validationErrors) > 0) {
         http_response_code(400);
@@ -30,7 +41,29 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         die();
     }
 
-    if ($name == "*" || $name == "") {
+    if ($usernameSearch) {
+        $query = <<<EOT
+            SELECT
+                volunteers.volunteer_id,
+                last_name,
+                first_name,
+                username,
+                punch_type,
+                punch_time,
+                events.community_service,
+                group_size,
+                department_name,
+                assignment_name
+            FROM events
+                INNER JOIN volunteers ON events.volunteer_id = volunteers.volunteer_id
+                INNER JOIN departments ON events.department_id = departments.department_id
+                INNER JOIN assignments ON events.assignment_id = assignments.assignment_id
+            WHERE username = '$username'
+            AND punch_time <= '$endDate'
+            AND punch_time >= '$startDate'
+            ORDER BY username DESC, punch_time DESC
+EOT;
+    } else if ($name == "*" || $name == "") {
         $query = <<<EOT
             SELECT
                 volunteers.volunteer_id,

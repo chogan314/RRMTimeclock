@@ -31,7 +31,7 @@ if (!isset($_SESSION['admin-id'])) {
                 <input type="date" name="stop-date" class="input-item" id="stop-date">
                 <div>for</div>
                 <input list="names-list" name="name" class="input-item" id="names-input" autocomplete="off" placeholder="Lastname, Firstname OR :username"></input>
-                <datalist id="names-list">
+                <datalist id="names-list" autocomplete="off">
                 </datalist>
                 <input type="submit" value="Refresh" class="input-button" id="refresh">
             </form>

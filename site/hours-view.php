@@ -58,7 +58,7 @@ if ($result) {
                 <input type="date" name="stop-date" class="input-item" id="stop-date">
                 <div>for</div>
                 <input list="names-list" name="name" class="input-item" id="names-input" autocomplete="off" placeholder="Lastname, Firstname"></input>
-                <datalist id="names-list">
+                <datalist id="names-list" autocomplete="off">
                 </datalist>
                 <input type="submit" value="Refresh" class="input-button" id="refresh">
             </form>
@@ -104,12 +104,12 @@ if ($result) {
                             
                             <!--Name Input id="popup-name-input"-->
                             <input list="popup-names-list" name="name" class="input-item" autocomplete="off" placeholder="Lastname, Firstname"  id="popup-name-input"></input>
-                            <datalist id="popup-names-list">
+                            <datalist id="popup-names-list" autocomplete="off">
                             </datalist>
 
                             <!--Username Input id="popup-username-input"-->
                             <input list="popup-usernames-list" name="username" class="input-item" autocomplete="off" placeholder="Username" id="popup-username-input"></input>
-                            <datalist id="popup-usernames-list">
+                            <datalist id="popup-usernames-list" autocomplete="off">
                             </datalist>
 
                             <!--Community Service Input id="popup-cs-select"-->
