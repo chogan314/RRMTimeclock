@@ -172,32 +172,44 @@ $(function() {
         bodyToReplace.replaceWith($(tbody));
     }
 
-    // var tData = [
-    //     {
-    //         "id": "12345",
-    //         "date": "06-22-1995",
-    //         "name": "Lastname, Firstname",
-    //         "username": "Lastfirst",
-    //         "group-size": "1",
-    //         "community-service": "No",
-    //         "punch-type": "In",
-    //         "time": "4:30 PM",
-    //         "department": "asdf",
-    //         "assignment": "Testing"
-    //     },
-    //     {
-    //         "id": "12345",
-    //         "date": "06-22-1995",
-    //         "name": "Lastname, Firstname",
-    //         "username": "Lastfirst",
-    //         "group-size": "1",
-    //         "community-service": "Yes",
-    //         "punch-type": "In",
-    //         "time": "4:30 PM",
-    //         "department": "asdf",
-    //         "assignment": "Testing"
-    //     }
-    // ];
+    function getVolunteerNames() {
+        $.ajax({
+            type: 'GET',
+            url: "get-volunteer-names.php"
+        }).done(function(response) {
+            $("#names-list").empty();
+            $("#popup-names-list").empty();
+            var namesList = JSON.parse(response);
+            for (var key in namesList) {
+                var name = namesList[key];
+                $("#names-list").append("<option value='" + name + "'>");
+                $("#popup-names-list").append("<option value='" + name + "'>");
+            }
+        }).fail(function(data) {
+            // todo
+        });
+    }
 
-    // populateTable(tData, $("#result-body"));
+    function getVolunteerUsernames() {
+        $.ajax({
+            type: 'GET',
+            url: "get-volunteer-usernames.php"
+        }).done(function(response) {
+            $("#popup-usernames-list").empty();
+            var namesList = JSON.parse(response);
+            for (var key in namesList) {
+                var name = namesList[key];
+                $("#popup-usernames-list").append("<option value='" + name + "'>");
+            }
+        }).fail(function(data) {
+            // todo
+        });
+    }
+
+    function getVolunteerData() {
+        getVolunteerNames();
+        getVolunteerUsernames();
+    }
+
+    getVolunteerData();
 });

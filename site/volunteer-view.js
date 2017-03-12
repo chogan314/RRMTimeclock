@@ -96,6 +96,7 @@ $(function() {
             }
             popup.css('display', 'none');
             clearPopup();
+            getVolunteerNames();
         }).fail(function(data) {
             // todo
         });
@@ -113,6 +114,7 @@ $(function() {
             }
             popup.css('display', 'none');
             clearPopup();
+            getVolunteerNames();
         }).fail(function(data) {
             // todo
         });
@@ -164,4 +166,22 @@ $(function() {
         }
         bodyToReplace.replaceWith($(tbody));
     }
+
+    function getVolunteerNames() {
+        $.ajax({
+            type: 'GET',
+            url: "get-volunteer-names.php"
+        }).done(function(response) {
+            $("#names-list").empty();
+            var namesList = JSON.parse(response);
+            for (var key in namesList) {
+                var name = namesList[key];
+                $("#names-list").append("<option value='" + name + "'>");
+            }
+        }).fail(function(data) {
+            // todo
+        });
+    }
+
+    getVolunteerNames();
 });

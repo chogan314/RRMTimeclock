@@ -59,13 +59,6 @@ if ($result) {
                 <div>for</div>
                 <input list="names-list" name="name" class="input-item" id="names-input" autocomplete="off" placeholder="Lastname, Firstname"></input>
                 <datalist id="names-list">
-                    <!--TODO: poplulate list from db-->
-                    <option value="Chrome">
-                    <option value="Firefox">
-                    <option value="Internet Explorer">
-                    <option value="Opera">
-                    <option value="Safari">
-                    <option value="Microsoft Edge">
                 </datalist>
                 <input type="submit" value="Refresh" class="input-button" id="refresh">
             </form>
@@ -112,23 +105,11 @@ if ($result) {
                             <!--Name Input id="popup-name-input"-->
                             <input list="popup-names-list" name="name" class="input-item" autocomplete="off" placeholder="Lastname, Firstname"  id="popup-name-input"></input>
                             <datalist id="popup-names-list">
-                                <option value="Chrome">
-                                <option value="Firefox">
-                                <option value="Internet Explorer">
-                                <option value="Opera">
-                                <option value="Safari">
-                                <option value="Microsoft Edge">
                             </datalist>
 
                             <!--Username Input id="popup-username-input"-->
                             <input list="popup-usernames-list" name="username" class="input-item" autocomplete="off" placeholder="Username" id="popup-username-input"></input>
                             <datalist id="popup-usernames-list">
-                                <option value="Chrome">
-                                <option value="Firefox">
-                                <option value="Internet Explorer">
-                                <option value="Opera">
-                                <option value="Safari">
-                                <option value="Microsoft Edge">
                             </datalist>
 
                             <!--Community Service Input id="popup-cs-select"-->

@@ -5,7 +5,6 @@ $(function() {
         tbody.setAttribute("id", "result-body");
 
         var tData = tableData.tdata;
-        debugger;
         var rowCount = 0;
         for (var key in tData) {
             var row = tData[key];
@@ -41,41 +40,43 @@ $(function() {
             url: $(form).attr('action'),
             data: formData
         }).done(function(response) {
-            debugger;
             var tData = JSON.parse(response);
             populateTable(tData, $("#result-body"));
         }).fail(function(data) {
-            debugger;
         });
     });
 
-    // var tData = [
-    //     {
-    //         "id": "12345",
-    //         "date": "1-1-1990",
-    //         "name": "Lastname, Firstname",
-    //         "username": "Lfirst",
-    //         "department": "a",
-    //         "assignment": "b",
-    //         "groupSize": "1",
-    //         "communityService": "no",
-    //         "in": "9:00",
-    //         "out": "5:00",
-    //         "hours": "8"
-    //     },
-    //     {
-    //         "id": "123456",
-    //         "date": "2-2-1990",
-    //         "name": "Lastname, asdfasdfdd",
-    //         "username": "asdfasdfsdf",
-    //         "groupSize": "1",
-    //         "communityService": "no",
-    //         "in": "90",
-    //         "out": "50",
-    //         "hours": "8",
-    //         "assignment": "asdfsdf"
-    //     }
-    // ];
+    function getVolunteerUsernames() {
+        $.ajax({
+            type: 'GET',
+            url: "get-volunteer-usernames.php"
+        }).done(function(response) {
+            var namesList = JSON.parse(response);
+            for (var key in namesList) {
+                var name = namesList[key];
+                $("#names-list").append("<option value=':" + name + "'>");
+            }
+        }).fail(function(data) {
+            // todo
+        });
+    }
 
-    // populateTable(tData, $("#result-body"));
+    function getVolunteerNames() {
+        $.ajax({
+            type: 'GET',
+            url: "get-volunteer-names.php"
+        }).done(function(response) {
+            $("#names-list").empty();
+            var namesList = JSON.parse(response);
+            for (var key in namesList) {
+                var name = namesList[key];
+                $("#names-list").append("<option value='" + name + "'>");
+            }
+            getVolunteerUsernames();
+        }).fail(function(data) {
+            // todo
+        });
+    }
+
+    getVolunteerNames();
 });

@@ -27,12 +27,12 @@ if (!isset($_SESSION['admin-id'])) {
                 <input list="names-list" name="name" class="input-item" id="names-input" autocomplete="off" placeholder="Lastname, Firstname"></input>
                 <datalist id="names-list">
                     <!--todo: populate list-->
-                    <option value="Chrome">
+                    <!--<option value="Chrome">
                     <option value="Firefox">
                     <option value="Internet Explorer">
                     <option value="Opera">
                     <option value="Safari">
-                    <option value="Microsoft Edge">
+                    <option value="Microsoft Edge">-->
                 </datalist>
                 <input type="submit" value="Refresh" class="input-button" id="refresh">
             </form>

@@ -30,15 +30,8 @@ if (!isset($_SESSION['admin-id'])) {
                 <div>to</div>
                 <input type="date" name="stop-date" class="input-item" id="stop-date">
                 <div>for</div>
-                <input list="names-list" name="name" class="input-item" id="names-input" autocomplete="off" placeholder="Lastname, Firstname"></input>
+                <input list="names-list" name="name" class="input-item" id="names-input" autocomplete="off" placeholder="Lastname, Firstname OR :username"></input>
                 <datalist id="names-list">
-                    <!--TODO: get list of names from DB-->
-                    <option value="Chrome">
-                    <option value="Firefox">
-                    <option value="Internet Explorer">
-                    <option value="Opera">
-                    <option value="Safari">
-                    <option value="Microsoft Edge">
                 </datalist>
                 <input type="submit" value="Refresh" class="input-button" id="refresh">
             </form>
