@@ -28,10 +28,37 @@ $(function() {
         $('#total-volunteer-hours').text(tableData.totalHours);
     }
 
+    function validateFilter() {
+        var inputElements = [
+            {
+                input: $("#start-date"),
+                validateFunc: validateDate
+            },
+            {
+                input: $("#stop-date"),
+                validateFunc: validateDate
+            },
+            {
+                input: $("#names-input"),
+                validateFunc: validateNameOrUsername,
+                allowEmpty: true,
+                extraCharacters: ["*"]
+            },
+            {
+                input: $("#department-select"),
+                validateFunc: validateSelect
+            }
+        ];
+        return validateInputs(inputElements, "input-item-error");
+    }
+
     var form = $('#filter-form');
 
     $(form).submit(function(event) {
         event.preventDefault();
+        if (!validateFilter()) {
+            return;
+        }
 
         var formData = $(form).serialize();
 
@@ -40,11 +67,9 @@ $(function() {
             url: $(form).attr('action'),
             data: formData
         }).done(function(response) {
-            debugger;
             var tData = JSON.parse(response);
             populateTable(tData, $("#result-body"));
         }).fail(function(data) {
-            debugger;
         });
     });
 

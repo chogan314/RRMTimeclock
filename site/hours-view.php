@@ -177,6 +177,7 @@ if ($result) {
     </script>
 EOT
     ?>
+    <script src="validate.js"></script>
     <script src="hours-view.js"></script>
 </body>
 </html>

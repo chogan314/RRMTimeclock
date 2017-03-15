@@ -23,6 +23,38 @@ $(function() {
         }
     }
 
+    function validateFilter() {
+        var inputElements = [
+            {
+                input: $("#start-date"),
+                validateFunc: validateDate
+            },
+            {
+                input: $("#stop-date"),
+                validateFunc: validateDate
+            }
+        ];
+        return validateInputs(inputElements, "input-item-error");
+    }
+
+    function validatePunchIn() {
+        var inputElements = [
+            {
+                input: $("#department-select"),
+                validateFunc: validateSelect
+            },
+            {
+                input: $("#assignment-select"),
+                validateFunc: validateSelect
+            },
+            {
+                input: $("#group-size-text"),
+                validateFunc: validateNumber
+            }
+        ];
+        return validateInputs(inputElements, "input-item-error");
+    }
+
     selectForm();
 
     function resetFilterRange() {
@@ -35,6 +67,9 @@ $(function() {
     var filterForm = $('#date-selection');
 
     function submitFilterForm() {
+        if (!validateFilter()) {
+            return;
+        }
         var formData = $(filterForm).serialize();
 
         $.ajax({
@@ -103,6 +138,9 @@ $(function() {
     var punchInForm = $('#punch-in-form');
     $(punchInForm).submit(function(event) {
         event.preventDefault();
+        if (!validatePunchIn()) {
+            return;
+        }
         var formData = $(punchInForm).serialize();
 
         $.ajax({

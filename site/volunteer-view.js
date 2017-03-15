@@ -27,9 +27,72 @@ function convertTo24Hour(timeString) {
 }
 
 $(function() {
+    function validateFilter() {
+        var inputElements = [
+            {
+                input: $("#names-input"),
+                validateFunc: validateSplitName,
+                allowEmpty: true,
+                extraCharacters: ["*"]
+            }
+        ];
+        return validateInputs(inputElements, "input-item-error");
+    }
+
+    function validateCreate() {
+        var inputElements = [
+            {
+                input: $("#popup-lastname-input"),
+                validateFunc: validateName
+            },
+            {
+                input: $("#popup-firstname-input"),
+                validateFunc: validateName
+            },
+            {
+                input: $("#popup-username-input"),
+                validateFunc: validateName
+            },
+            {
+                input: $("#popup-password-input"),
+                validateFunc: validatePassword
+            }
+        ];
+        return validateInputs(inputElements, "input-item-error");
+    }
+
+    function validateUpdate() {
+        var inputElements = [
+            {
+                input: $("#popup-lastname-input"),
+                validateFunc: validateName,
+                allowEmpty: true
+            },
+            {
+                input: $("#popup-firstname-input"),
+                validateFunc: validateName,
+                allowEmpty: true
+            },
+            {
+                input: $("#popup-username-input"),
+                validateFunc: validateName,
+                allowEmpty: true
+            },
+            {
+                input: $("#popup-password-input"),
+                validateFunc: validatePassword,
+                allowEmpty: true
+            }
+        ];
+        return validateInputs(inputElements, "input-item-error");
+    }
+
     var filterForm = $('#filter-form');
 
     function submitFilterForm() {
+        if (!validateFilter()) {
+            return;
+        }
         var formData = $(filterForm).serialize();
 
         $.ajax({
@@ -85,6 +148,9 @@ $(function() {
     var popupForm = $('#popup-form');
 
     popupCreateButton.click(function() {
+        if (!validateCreate()) {
+            return;
+        }
         var formData = $(popupForm).serialize();     
         $.ajax({
             type: 'POST',
@@ -103,6 +169,9 @@ $(function() {
     });
 
     popupEditButton.click(function() {
+        if (!validateUpdate()) {
+            return;
+        }
         var formData = $(popupForm).serialize();
         $.ajax({
             type: 'POST',

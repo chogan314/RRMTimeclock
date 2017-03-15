@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
     if (!$row) {
-        http_response_code(200);
+        http_response_code(400);
         echo "Invalid department";
         die();
     }
@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
     if (!$row) {
-        http_response_code(200);
+        http_response_code(400);
         echo "Invalid assignment";
         die();
     }
@@ -85,7 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
     if (!$row) {
-        http_response_code(200);
+        http_response_code(400);
         echo "Invalid username";
         die();
     } else {

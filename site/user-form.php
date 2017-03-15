@@ -108,16 +108,16 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                             <option value="default" disabled selected>Select your department</option>
                             <?php
                             foreach ($departments as $id => $name) {
-                                    echo '<option value="' . $id . '">' . $name . '</option>';
-                                }
+                                echo '<option value="' . $id . '">' . $name . '</option>';
+                            }
                             ?>
                             </select>
                             <select name="assignment" id="assignment-select">
                                 <option value="default" disabled selected>Select your assignment</option>
                                 <?php
                                 foreach ($assignments as $id => $name) {
-                                        echo '<option value="' . $id . '">' . $name . '</option>';
-                                    }
+                                    echo '<option value="' . $id . '">' . $name . '</option>';
+                                }
                                 ?>
                             </select>
                             <div class="row">
@@ -151,6 +151,7 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
     </script>
 EOT;
     ?>
+    <script src="validate.js"></script>
     <script src="user-form.js"></script>
 </body>
 

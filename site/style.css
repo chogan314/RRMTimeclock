@@ -127,6 +127,19 @@ td {
     box-shadow: none;
 }
 
+.input-item-error {
+    background-color: #ffd3d3 !important;
+    border-bottom: 1px solid #FF4321 !important;
+}
+
+.input-item-error:hover {
+    border-bottom: 1px solid #FF4321 !important;
+}
+
+.input-item-error:focus {
+    border-bottom: 1px solid #FF4321 !important;
+}
+
 .input-button {
     background: rgb(3, 169, 245);
     color: white;

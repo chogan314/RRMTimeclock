@@ -160,7 +160,7 @@ h1 {
     padding: 10px;
 }
 
-.input-item {
+/*.input-item {
     border: none;
     border-bottom: 1px solid #C1C3D1;
     background-color: rgba(0, 0, 0, 0);
@@ -174,7 +174,7 @@ h1 {
     border-bottom: 1px solid rgb(3, 169, 245);
     outline: none;
     box-shadow: none;
-}
+}*/
 
 #group-size {
     text-align: center;

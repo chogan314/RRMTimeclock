@@ -5,6 +5,19 @@ if (!isset($_SESSION['admin-id'])) {
     exit();
 }
 
+require_once('mysqli_connect.php');
+require_once('utils.php');
+
+$departments = [];
+
+$query = "SELECT department_id, department_name FROM departments";
+$result = mysqli_query($dbc, $query);
+if (!$result) {
+    die($query."<br/><br/>".mysqli_error($dbc));
+}
+while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+    $departments[$row['department_id']] = $row['department_name'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -33,6 +46,14 @@ if (!isset($_SESSION['admin-id'])) {
                 <input list="names-list" name="name" class="input-item" id="names-input" autocomplete="off" placeholder="Lastname, Firstname OR :username"></input>
                 <datalist id="names-list" autocomplete="off">
                 </datalist>
+                <select name="department" class="input-item" id="department-select">
+                    <option value="default" disabled selected>Select department</option>
+                    <?php
+                    foreach ($departments as $id => $name) {
+                        echo '<option value="' . $id . '">' . $name . '</option>';
+                    }
+                    ?>
+                </select>
                 <input type="submit" value="Refresh" class="input-button" id="refresh">
             </form>
             <div class="section">
@@ -80,6 +101,7 @@ if (!isset($_SESSION['admin-id'])) {
         </div>
     </div>
     <script src="jquery-3.1.1.min.js"></script>
+    <script src="validate.js"></script>
     <script src="hours-report.js"></script>
 </body>
 

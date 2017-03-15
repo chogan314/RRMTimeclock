@@ -35,9 +35,118 @@ $(function() {
     var popupEditButton = $('#popup-edit-button');
     var popupForm = $('#popup-form');
 
-    function submitFilterForm() {
-        var formData = $(filterForm).serialize();
+    function validateFilter() {
+        var inputElements = [
+            {
+                input: $("#start-date"),
+                validateFunc: validateDate
+            },
+            {
+                input: $("#stop-date"),
+                validateFunc: validateDate
+            },
+            {
+                input: $("#names-input"),
+                validateFunc: validateSplitName,
+                allowEmpty: true,
+                extraCharacters: ["*"]
+            }
+        ];
+        return validateInputs(inputElements, "input-item-error");
+    }
 
+    function validateCreate() {
+        var inputElements = [
+            {
+                input: $("#popup-date-input"),
+                validateFunc: validateDate
+            },
+            {
+                input: $("#popup-name-input"),
+                validateFunc: validateSplitName
+            },
+            {
+                input: $("#popup-username-input"),
+                validateFunc: validateName
+            },
+            {
+                input: $("#popup-cs-select"),
+                validateFunc: validateSelect,
+            },
+            {
+                input: $("#popup-group-size-input"),
+                validateFunc: validateNumber
+            },
+            {
+                input: $("#popup-punch-type-select"),
+                validateFunc: validateSelect
+            },
+            {
+                input: $("#popup-time-input"),
+                validateFunc: validateTime
+            },
+            {
+                input: $("#popup-department-select"),
+                validateFunc: validateSelect
+            },
+            {
+                input: $("#popup-assignment-select"),
+                validateFunc: validateSelect
+            }
+        ];
+        return validateInputs(inputElements, "input-item-error");
+    }
+
+    function validateUpdate() {
+        var inputElements = [
+            {
+                input: $("#popup-date-input"),
+                validateFunc: validateDate
+            },
+            {
+                input: $("#popup-name-input"),
+                validateFunc: validateSplitName,
+                allowEmpty: true
+            },
+            {
+                input: $("#popup-username-input"),
+                validateFunc: validateName,
+                allowEmpty: true
+            },
+            {
+                input: $("#popup-cs-select"),
+                validateFunc: validateSelect,
+            },
+            {
+                input: $("#popup-group-size-input"),
+                validateFunc: validateNumber,
+                allowEmpty: true
+            },
+            {
+                input: $("#popup-punch-type-select"),
+                validateFunc: validateSelect
+            },
+            {
+                input: $("#popup-time-input"),
+                validateFunc: validateTime
+            },
+            {
+                input: $("#popup-department-select"),
+                validateFunc: validateSelect
+            },
+            {
+                input: $("#popup-assignment-select"),
+                validateFunc: validateSelect
+            }
+        ];
+        return validateInputs(inputElements, "input-item-error");
+    }
+
+    function submitFilterForm() {
+        if (!validateFilter()) {
+            return;
+        }
+        var formData = $(filterForm).serialize();
         $.ajax({
             type: 'GET',
             url: $(filterForm).attr('action'),
@@ -49,11 +158,6 @@ $(function() {
             // todo
         });
     }
-
-    function validateFilterForm() {
-        // todo
-        return false;
-    }    
 
     $(filterForm).submit(function(event) {
         event.preventDefault();
@@ -87,15 +191,15 @@ $(function() {
     });
 
     popupCreateButton.click(function() {
+        if (!validateCreate()) {
+            return;
+        }
         var formData = $(popupForm).serialize();
         $.ajax({
             type: 'POST',
             url: "hours-view-create.php",
             data: formData
         }).done(function(response) {
-            if (validateFilterForm()) {
-                submitFilterForm();
-            }
             popup.css('display', 'none');
             clearPopup();
         }).fail(function(data) {
@@ -104,15 +208,15 @@ $(function() {
     });
 
     popupEditButton.click(function() {
+        if (!validateUpdate()) {
+            return;
+        }
         var formData = $(popupForm).serialize();
         $.ajax({
             type: 'POST',
             url: "hours-view-update.php",
             data: formData
         }).done(function(response) {
-            if (validateFilterForm()) {
-                submitFilterForm();
-            }
             popup.css('display', 'none');
             clearPopup();
         }).fail(function(data) {

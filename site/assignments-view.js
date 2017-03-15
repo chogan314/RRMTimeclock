@@ -42,6 +42,22 @@ $(function() {
         bodyToReplace.replaceWith($(tbody));
     }
 
+    function validateCreate() {
+        var inputElements = [
+            {input: $("#record-name"),
+            validateFunc: validateNameWithSpaces}
+        ];
+        return validateInputs(inputElements, "input-item-error");
+    }
+
+    function validateEdit() {
+        var inputElements = [
+            {input: $("#popup-assignment-name-input"),
+            validateFunc: validateNameWithSpaces}
+        ];
+        return validateInputs(inputElements, "input-item-error");
+    }
+
     function refreshTable() {   
         $.ajax({
             type: 'GET',
@@ -55,6 +71,10 @@ $(function() {
     }
 
     function createRecord() {
+        if (!validateCreate()) {
+            return;
+        }
+
         var formData = $("#create-form").serialize();
 
         $.ajax({
@@ -75,6 +95,9 @@ $(function() {
 
     $(popupForm).submit(function(event) {
         event.preventDefault();
+        if (!validateEdit()) {
+            return;
+        }
         var formData = $(popupForm).serialize();
 
         $.ajax({
