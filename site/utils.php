@@ -80,4 +80,8 @@ function validateNameWithSpaces($name, $allowEmpty = false) {
     return preg_match("/^[\w\s]{1,60}$/", $name) === 1;
 }
 
+function formatName($name) {
+    return ucwords(strtolower($name));
+}
+
 ?>

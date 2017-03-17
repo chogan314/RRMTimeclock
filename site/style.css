@@ -256,3 +256,8 @@ row-form>div {
 .row-menu>.input-button {
     width: 160px;
 }
+
+.column-narrow {
+    width: 1px;
+    font-size: 18px;
+}

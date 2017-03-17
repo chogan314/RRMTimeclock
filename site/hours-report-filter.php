@@ -59,8 +59,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 INNER JOIN departments ON events.department_id = departments.department_id
                 INNER JOIN assignments ON events.assignment_id = assignments.assignment_id
             WHERE username = '$username'
-            AND punch_time <= '$endDate'
-            AND punch_time >= '$startDate'
+            AND DATE(punch_time) <= '$endDate'
+            AND DATE(punch_time) >= '$startDate'
             ORDER BY username DESC, punch_time DESC
 EOT;
     } else if ($name == "*" || $name == "") {
@@ -80,8 +80,8 @@ EOT;
                 INNER JOIN volunteers ON events.volunteer_id = volunteers.volunteer_id
                 INNER JOIN departments ON events.department_id = departments.department_id
                 INNER JOIN assignments ON events.assignment_id = assignments.assignment_id
-            WHERE punch_time <= '$endDate'
-            AND punch_time >= '$startDate'
+            WHERE DATE(punch_time) <= '$endDate'
+            AND DATE(punch_time) >= '$startDate'
             ORDER BY username DESC, punch_time DESC
 EOT;
     } else {
@@ -111,8 +111,8 @@ EOT;
                 INNER JOIN assignments ON events.assignment_id = assignments.assignment_id
             WHERE last_name = '$lastName'
             AND first_name = '$firstName'
-            AND punch_time <= '$endDate'
-            AND punch_time >= '$startDate'
+            AND DATE(punch_time) <= '$endDate'
+            AND DATE(punch_time) >= '$startDate'
             ORDER BY username DESC, punch_time DESC
 EOT;
     }
@@ -171,7 +171,7 @@ EOT;
         $responseRow = [];
         $responseRow['id'] = $row['volunteer_id'];
         $responseRow['date'] = $startTime->format("m-d-Y");
-        $responseRow['name'] = $row['last_name'] . ', ' . $row['first_name'];
+        $responseRow['name'] = formatName($row['last_name'] . ', ' . $row['first_name']);
         $responseRow['username'] = $row['username'];
         $responseRow['department'] = $row['department_name'];
         $responseRow['assignment'] = $row['assignment_name'];

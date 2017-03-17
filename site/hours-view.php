@@ -73,8 +73,8 @@ if ($result) {
                             <th>Date</th>
                             <th>Name</th>
                             <th>Username</th>
-                            <th class="th-width-narrow">Group Size</th>
-                            <th class="th-width-narrow">Community Service</th>
+                            <th class="column-narrow">Group Size</th>
+                            <th class="column-narrow">Community Service</th>
                             <th>Punch</th>
                             <th>Time</th>
                             <th>Department</th>

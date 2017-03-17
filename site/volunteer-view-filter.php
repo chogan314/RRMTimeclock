@@ -70,8 +70,8 @@ EOT;
     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
         $responseRow = [];
         $responseRow['id'] = $row['volunteer_id'];
-        $responseRow['lastname'] = $row['last_name'];
-        $responseRow['firstname'] = $row['first_name'];
+        $responseRow['lastname'] = formatName($row['last_name']);
+        $responseRow['firstname'] = formatName($row['first_name']);
         $responseRow['community-service'] = $row['community_service'] ? 'Yes' : 'No';
         $responseRow['username'] = $row['username'];
         $response[] = $responseRow;

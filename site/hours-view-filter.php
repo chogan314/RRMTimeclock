@@ -53,8 +53,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 INNER JOIN volunteers ON events.volunteer_id = volunteers.volunteer_id
                 INNER JOIN departments ON events.department_id = departments.department_id
                 INNER JOIN assignments ON events.assignment_id = assignments.assignment_id
-            WHERE punch_time <= '$stopDate'
-            AND punch_time >= '$startDate'
+            WHERE DATE(punch_time) <= '$stopDate'
+            AND DATE(punch_time) >= '$startDate'
             ORDER BY punch_time DESC;
 EOT;
     } else {
@@ -84,8 +84,8 @@ EOT;
                 INNER JOIN volunteers ON events.volunteer_id = volunteers.volunteer_id
                 INNER JOIN departments ON events.department_id = departments.department_id
                 INNER JOIN assignments ON events.assignment_id = assignments.assignment_id
-            WHERE punch_time <= '$stopDate'
-            AND punch_time >= '$startDate'
+            WHERE DATE(punch_time) <= '$stopDate'
+            AND DATE(punch_time) >= '$startDate'
             AND first_name = '$firstName'
             AND last_name = '$lastName'
             ORDER BY username DESC, punch_time DESC;
@@ -106,7 +106,7 @@ EOT;
         $responseRow = [];
         $responseRow['id'] = $row['event_id'];
         $responseRow['date'] = $dateTime->format("m-d-Y");
-        $responseRow['name'] = $row['last_name'] . ', ' . $row['first_name'];
+        $responseRow['name'] = formatName($row['last_name'] . ', ' . $row['first_name']);
         $responseRow['username'] = $row['username'];
         $responseRow['group-size'] = $row['group_size'];
         $responseRow['community-service'] = $row['community_service'] ? 'Yes' : 'No';

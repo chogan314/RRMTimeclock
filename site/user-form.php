@@ -16,8 +16,8 @@ if (!$result) {
 }
 
 $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-$lastName = $row['last_name'];
-$firstName = $row['first_name'];
+$lastName = formatName($row['last_name']);
+$firstName = formatName($row['first_name']);
 $volunteerId = $row['volunteer_id'];
 
 $punchedIn = true;
@@ -101,7 +101,7 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
             </div>
             <div class="column" id="rhs-container">
                 <div class="section column center" id="rhs">
-                    <h1 id="user-welcome">Welcome, Your Name Here.</h1>
+                    <h1 id="user-welcome"></h1>
                     <div id="punch-in-container">
                         <form id="punch-in-form" class="column center" action="user_punch_in.php" method="post">
                             <select name="department" id="department-select">
@@ -122,15 +122,15 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                             </select>
                             <div class="row">
                                 <div>Group size:</div>
-                                <input type="text" name="group-size" id="group-size-text" class="input-item" value="1" placeholder="#" autocomplete="off">
+                                <input type="text" name="group-size" id="group-size-text" class="input-item" placeholder="#" autocomplete="off">
                             </div>
                             <input type="submit" class="submit-button" id="punch-in-button" value="Punch In">
                         </form>
                     </div>
                     <div id="punch-out-container">
                         <form id="punch-out-form" class="column center" action="user_punch_out.php" method="post">
-                            <div id="current-department"></div>
-                            <div id="current-assignment"></div>
+                            <div class="text-med" id="current-department"></div>
+                            <div class="text-med" id="current-assignment"></div>
                             <input type="submit" class="submit-button" id="punch-out-button" value="Punch Out">
                         </form>
                     </div>       

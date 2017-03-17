@@ -65,8 +65,8 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                             <th>Username</th>
                             <th>Department</th>
                             <th>Assignment</th>
-                            <th>Group Size</th>
-                            <th>Community Service</th>
+                            <th class="column-narrow">Group Size</th>
+                            <th class="column-narrow">Community Service</th>
                             <th>In</th>
                             <th>Out</th>
                             <th>Hours</th>
