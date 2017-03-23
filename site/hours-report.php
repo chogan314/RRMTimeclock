@@ -26,6 +26,7 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 <head>
     <meta charset="UTF-8">
     <title>Report</title>
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="hours-report.css">
 </head>
@@ -47,7 +48,7 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                 <datalist id="names-list" autocomplete="off">
                 </datalist>
                 <select name="department" class="input-item" id="department-select">
-                    <option value="default" disabled selected>Select department</option>
+                    <option value="any" selected>Any department</option>
                     <?php
                     foreach ($departments as $id => $name) {
                         echo '<option value="' . $id . '">' . $name . '</option>';

@@ -43,10 +43,6 @@ $(function() {
                 validateFunc: validateNameOrUsername,
                 allowEmpty: true,
                 extraCharacters: ["*"]
-            },
-            {
-                input: $("#department-select"),
-                validateFunc: validateSelect
             }
         ];
         return validateInputs(inputElements, "input-item-error");
@@ -67,9 +63,11 @@ $(function() {
             url: $(form).attr('action'),
             data: formData
         }).done(function(response) {
+            debugger;
             var tData = JSON.parse(response);
             populateTable(tData, $("#result-body"));
         }).fail(function(data) {
+            debugger;
         });
     });
 

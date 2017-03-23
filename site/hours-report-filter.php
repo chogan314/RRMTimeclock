@@ -8,11 +8,100 @@ if (!isset($_SESSION['admin-id'])) {
 require_once('mysqli_connect.php');
 require_once('utils.php');
 
+function verifyPunches($punchRecords) {
+    $punchState = 2;
+    foreach ($punchRecords as $record) {
+        if ($record['punch_type'] == 'punch-in') {
+            if ($punchState == 1) {
+                return false;
+            }
+            $punchState = 1;
+        } else {
+            if ($punchState == 0) {
+                return false;
+            }
+            $punchState = 0;
+        }
+    }
+    return true;
+}
+
+function mergePunches($punchRecords) {
+    $ins = [];
+    $outs = [];
+    $size = count($punchRecords);
+    for ($i = 0; $i < $size; $i++) {
+        $record = $punchRecords[$i];
+        if ($i == 0 && $record['punch_type'] == 'punch-in') {
+            continue;
+        }
+        if ($i == $size - 1 && $record['punch_type'] == 'punch-out') {
+            break;
+        }
+        if ($record['punch_type'] == 'punch-in') {
+            $ins[] = $record;
+        } else {
+            $outs[] = $record;
+        }
+    }
+
+    if (count($ins) != count($outs)) {
+        http_response_code(500);
+        echo "database error";
+        die();
+    }
+
+    $mergedRecords = [];
+    $totalVolunteers = 0;
+    $csHours = 0;
+    $totalHours = 0;
+
+    $size = count($ins);
+    for ($i = 0; $i < $size; $i++) {
+        $in = $ins[$i];
+        $out = $outs[$i];
+
+        $groupSize = $in['group_size'];
+        $communityService = $in['community_service'];
+        $startTime = new DateTime($in['punch_time']);
+        $stopTime = new DateTime($out['punch_time']);
+        $seconds = $stopTime->getTimestamp() - $startTime->getTimestamp();
+        $hours = $seconds / 60 / 60;
+
+        $totalHours += $groupSize * $hours;
+        if($communityService) {
+            $csHours += $groupSize * $hours;
+        }
+        $totalVolunteers += $groupSize;
+
+        $record = [];
+        $record['id'] = $in['volunteer_id'];
+        $record['date'] = $startTime->format("m-d-Y");
+        $record['name'] = formatName($in['last_name'] . ', ' . $in['first_name']);
+        $record['username'] = $in['username'];
+        $record['department'] = $in['department_name'];
+        $record['assignment'] = $in['assignment_name'];
+        $record['groupSize'] = $groupSize;
+        $record['communityService'] = $communityService ? 'Yes' : 'No';
+        $record['in'] = $startTime->format("h:i A");
+        $record['out'] = $stopTime->format("h:i A");
+        $record['hours'] = number_format($hours, 2, '.', '');
+        $mergedRecords[] = $record;
+    }
+
+    $dataAndRecords = [];
+    $dataAndRecords['totalVolunteers'] = $totalVolunteers;
+    $dataAndRecords['csHours'] = $csHours;
+    $dataAndRecords['totalHours'] = $totalHours;
+    $dataAndRecords['mergedRecords'] = $mergedRecords;
+    return $dataAndRecords;
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $startDate = sanitizeInput(getGetParam("start-date"), $dbc);
     $endDate = sanitizeInput(getGetParam("stop-date"), $dbc);
     $name = sanitizeInput(getGetParam("name"), $dbc);
-    $query = "";
+    $departmentId = sanitizeInput(getGetParam("department"), $dbc);
     $usernameSearch = false;
     $username = "";
 
@@ -41,159 +130,90 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         die();
     }
 
+    $query = <<<EOT
+        SELECT
+            volunteers.volunteer_id,
+            last_name,
+            first_name,
+            username,
+            punch_type,
+            punch_time,
+            events.community_service,
+            group_size,
+            department_name,
+            assignment_name
+        FROM events
+            INNER JOIN volunteers ON events.volunteer_id = volunteers.volunteer_id
+            INNER JOIN departments ON events.department_id = departments.department_id
+            INNER JOIN assignments ON events.assignment_id = assignments.assignment_id
+        WHERE DATE(punch_time) <= '$endDate'
+        AND DATE(punch_time) >= '$startDate'
+EOT;
+
     if ($usernameSearch) {
-        $query = <<<EOT
-            SELECT
-                volunteers.volunteer_id,
-                last_name,
-                first_name,
-                username,
-                punch_type,
-                punch_time,
-                events.community_service,
-                group_size,
-                department_name,
-                assignment_name
-            FROM events
-                INNER JOIN volunteers ON events.volunteer_id = volunteers.volunteer_id
-                INNER JOIN departments ON events.department_id = departments.department_id
-                INNER JOIN assignments ON events.assignment_id = assignments.assignment_id
-            WHERE username = '$username'
-            AND DATE(punch_time) <= '$endDate'
-            AND DATE(punch_time) >= '$startDate'
-            ORDER BY username DESC, punch_time DESC
-EOT;
-    } else if ($name == "*" || $name == "") {
-        $query = <<<EOT
-            SELECT
-                volunteers.volunteer_id,
-                last_name,
-                first_name,
-                username,
-                punch_type,
-                punch_time,
-                events.community_service,
-                group_size,
-                department_name,
-                assignment_name
-            FROM events
-                INNER JOIN volunteers ON events.volunteer_id = volunteers.volunteer_id
-                INNER JOIN departments ON events.department_id = departments.department_id
-                INNER JOIN assignments ON events.assignment_id = assignments.assignment_id
-            WHERE DATE(punch_time) <= '$endDate'
-            AND DATE(punch_time) >= '$startDate'
-            ORDER BY username DESC, punch_time DESC
-EOT;
-    } else {
+        $query .= " AND username = '$username'";
+    } else if ($name != "*" && $name != "") {
         if (count(explode(",", $name)) != 2) {
+            http_response_code(400);
+            echo "invalid name format";
             die();
-            // todo: handle error
         }
+
         $splitName = splitName($name);
         $lastName = $splitName[0];
         $firstName = $splitName[1];
-
-        $query = <<<EOT
-            SELECT
-                volunteers.volunteer_id,
-                last_name,
-                first_name,
-                username,
-                punch_type,
-                punch_time,
-                events.community_service,
-                group_size,
-                department_name,
-                assignment_name
-            FROM events
-                INNER JOIN volunteers ON events.volunteer_id = volunteers.volunteer_id
-                INNER JOIN departments ON events.department_id = departments.department_id
-                INNER JOIN assignments ON events.assignment_id = assignments.assignment_id
-            WHERE last_name = '$lastName'
-            AND first_name = '$firstName'
-            AND DATE(punch_time) <= '$endDate'
-            AND DATE(punch_time) >= '$startDate'
-            ORDER BY username DESC, punch_time DESC
-EOT;
+        $query .= " AND last_name = '$lastName' AND first_name = '$firstName'";
     }
 
-    $result = mysqli_query($dbc, $query);
+    if ($departmentId !== "any") {
+        $query .= " AND events.department_id = '$departmentId'";
+    }
 
+    $query .= " ORDER BY username ASC, punch_time DESC, punch_type DESC;";
+
+    $result = mysqli_query($dbc, $query);
     if (!$result) {
         die($query."<br/><br/>".mysqli_error($dbc));
     }
 
-    $response = [];
+    $userData = [];
 
-    $currentUsername = '';
-    $hoursAcc = 0;
-    $csHoursAcc = 0;
-    $volunteersAcc = 0;
-    $volunteersSet = [];
-    
-    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-    while ($row) {
-        if ($row['punch_type'] != 'punch-out') {
-            $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-            continue;
-        }
-
-        $next = mysqli_fetch_array($result, MYSQLI_ASSOC);
-        if (!$next) {
-            break;
-        }
-
-        if ($next['volunteer_id'] != $row['volunteer_id']) {
-            $row = $next;
-            continue;
-        }
-
-        if ($next['punch_type'] != 'punch-in') {
-            // throw error
-            break;
-        } else {
-            $volunteersSet[$next['username']] = 1;
-        }
-
-        $groupSize = $next['group_size'];
-        $communityService = $next['community_service'];
-        $startTime = new DateTime($next['punch_time']);
-        $stopTime = new DateTime($row['punch_time']);
-        $timeDiff = $startTime->diff($stopTime);
-        $hours = $timeDiff->d * 24 + $timeDiff->h + ($timeDiff->i / 60);
-
-        $hoursAcc += $groupSize * $hours;
-        if($communityService) {
-            $csHoursAcc += $groupSize * $hours;
-        }
-        $volunteersAcc += $groupSize;
-
-        $responseRow = [];
-        $responseRow['id'] = $row['volunteer_id'];
-        $responseRow['date'] = $startTime->format("m-d-Y");
-        $responseRow['name'] = formatName($row['last_name'] . ', ' . $row['first_name']);
-        $responseRow['username'] = $row['username'];
-        $responseRow['department'] = $row['department_name'];
-        $responseRow['assignment'] = $row['assignment_name'];
-        $responseRow['groupSize'] = $groupSize;
-        $responseRow['communityService'] = $communityService ? 'Yes' : 'No';
-        $responseRow['in'] = $startTime->format("h:i A");
-        $responseRow['out'] = $stopTime->format("h:i A");
-        $responseRow['hours'] = number_format($hours, 2, '.', '');
-        $response[] = $responseRow;
-
-        $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+        $userData[$row['volunteer_id']][] = $row;
     }
 
-    $reportFinal['tdata'] = $response;
-    $reportFinal['totalVolunteers'] = $volunteersAcc;
-    $reportFinal['uniqueVolunteers'] = count($volunteersSet);
-    $reportFinal['communityServiceHours'] = number_format($csHoursAcc, 2, '.', '');
-    $reportFinal['nonCommunityServiceHours'] = number_format($hoursAcc - $csHoursAcc, 2, '.', '');
-    $reportFinal['totalHours'] = number_format($hoursAcc, 2, '.', '');
+    $invalidUsers = [];
+    $totalVolunteers = 0;
+    $totalHours = 0;
+    $csHours = 0;
+    $mergedRecords = [];
+    foreach ($userData as $userRecords) {
+        if (!verifyPunches($userRecords)) {
+            $invalidUsers[] = $userRecords[0]['username'];
+            continue;
+        }
+        $dataAndRecords = mergePunches($userRecords);
+        $totalVolunteers += $dataAndRecords['totalVolunteers'];
+        $totalHours += $dataAndRecords['totalHours'];
+        $csHours += $dataAndRecords['csHours'];
+        $mergedRecords = array_merge($mergedRecords, $dataAndRecords['mergedRecords']);
+    }
+
+    if (count($invalidUsers) > 0) {
+        http_response_code(500);
+        echo json_encode($invalidUsers);
+        die();
+    }
+
+    $response['tdata'] = $mergedRecords;
+    $response['totalVolunteers'] = $totalVolunteers;
+    $response['uniqueVolunteers'] = count($userData);
+    $response['communityServiceHours'] = number_format($csHours, 2, '.', '');
+    $response['nonCommunityServiceHours'] = number_format($totalHours - $csHours, 2, '.', '');
+    $response['totalHours'] = number_format($totalHours, 2, '.', '');
 
     http_response_code(200);
-    echo json_encode($reportFinal);
+    echo json_encode($response);
 }
 
 mysqli_close($dbc);
