@@ -152,8 +152,9 @@ $(function() {
             url: $(filterForm).attr('action'),
             data: formData
         }).done(function(response) {
-            var tData = JSON.parse(response);
-            populateTable(tData, $("#result-body"));
+            debugger;
+            var data = JSON.parse(response);
+            populateTable(data.tdata, $("#result-body"));
         }).fail(function(data) {
             // todo
         });

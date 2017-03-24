@@ -7,6 +7,7 @@ if (!isset($_SESSION['admin-id'])) {
 
 require_once('mysqli_connect.php');
 require_once('utils.php');
+require_once('dbutils.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     /*
@@ -55,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 INNER JOIN assignments ON events.assignment_id = assignments.assignment_id
             WHERE DATE(punch_time) <= '$stopDate'
             AND DATE(punch_time) >= '$startDate'
-            ORDER BY punch_time DESC;
+            ORDER BY username DESC, punch_time DESC, punch_type DESC;
 EOT;
     } else {
         if (count(explode(",", $name)) != 2) {
@@ -88,7 +89,7 @@ EOT;
             AND DATE(punch_time) >= '$startDate'
             AND first_name = '$firstName'
             AND last_name = '$lastName'
-            ORDER BY username DESC, punch_time DESC;
+            ORDER BY username DESC, punch_time DESC, punch_type DESC;
 EOT;
     }
 
@@ -97,9 +98,24 @@ EOT;
         die($query."<br/><br/>".mysqli_error($dbc));
     }
 
-    $response = [];
-
+    $rows = [];
+    $userData = [];
     while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+        $rows[] = $row;
+        $userData[$row['username']][] = $row;
+    }
+
+    $invalidUsers = [];
+    foreach ($userData as $punchRecords) {
+        if (!verifyPunches($punchRecords)) {
+            $invalidUsers[] = $punchRecords['username'];
+        }
+    }
+
+    $response = [];
+    $response['invalidUsers'] = $invalidUsers;
+
+    foreach ($rows as $row) {
         $dateTime = new DateTime($row['punch_time']);
         $punch = $row['punch_type'] == "punch-in" ? "In" : "Out";
 
@@ -114,7 +130,7 @@ EOT;
         $responseRow['time'] = $dateTime->format("h:i A");
         $responseRow['department'] = $row['department_name'];
         $responseRow['assignment'] = $row['assignment_name'];
-        $response[] = $responseRow;
+        $response['tdata'][] = $responseRow;
     }
 }
 
