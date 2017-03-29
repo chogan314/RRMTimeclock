@@ -27,16 +27,18 @@ function convertTo24Hour(timeString) {
 }
 
 $(function() {
-    function validateFilter() {
-        var inputElements = [
-            {
-                input: $("#names-input"),
-                validateFunc: validateSplitName,
-                allowEmpty: true,
-                extraCharacters: ["*"]
-            }
-        ];
-        return validateInputs(inputElements, "input-item-error");
+    function getAdmins() {
+        $.ajax({
+            type: 'GET',
+            url: "admins-view-get.php"
+        }).done(function(response) {
+            debugger;
+            var tData = JSON.parse(response);
+            populateTable(tData, $("#result-body"));
+        }).fail(function(data) {
+            debugger;
+            // todo
+        });
     }
 
     function validateCreate() {
@@ -48,6 +50,10 @@ $(function() {
             {
                 input: $("#popup-firstname-input"),
                 validateFunc: validateName
+            },
+            {
+                input: $("#popup-admin-level-input"),
+                validateFunc: validateNumber
             },
             {
                 input: $("#popup-username-input"),
@@ -74,6 +80,11 @@ $(function() {
                 allowEmpty: true
             },
             {
+                input: $("#popup-admin-level-input"),
+                validateFunc: validateNumber,
+                allowEmpty: true
+            },
+            {
                 input: $("#popup-username-input"),
                 validateFunc: validateName,
                 allowEmpty: true
@@ -86,36 +97,6 @@ $(function() {
         ];
         return validateInputs(inputElements, "input-item-error");
     }
-
-    var filterForm = $('#filter-form');
-
-    function submitFilterForm() {
-        if (!validateFilter()) {
-            return;
-        }
-        var formData = $(filterForm).serialize();
-
-        $.ajax({
-            type: 'GET',
-            url: $(filterForm).attr('action'),
-            data: formData
-        }).done(function(response) {
-            var tData = JSON.parse(response);
-            populateTable(tData, $("#result-body"));
-        }).fail(function(data) {
-            // todo
-        });
-    }
-
-    function validateFilterForm() {
-        // todo
-        return false;
-    }
-
-    $(filterForm).submit(function(event) {
-        event.preventDefault();
-        submitFilterForm();
-    });
 
     var popup = $('#popup');
     var createButton = $('#open-create-popup');
@@ -133,13 +114,14 @@ $(function() {
         $('#popup-record-id').val("");
         $('#popup-lastname-input').val("");
         $('#popup-firstname-input').val("");
-        $('#popup-community-service-cb').prop('checked', false);
+        $('#popup-admin-level-input').val("");
         $('#popup-username-input').val("");
         $('#popup-password-input').val("");
 
         $('#popup-record-id').removeClass("input-item-error");
         $('#popup-lastname-input').removeClass("input-item-error");
         $('#popup-firstname-input').removeClass("input-item-error");
+        $('#popup-admin-level-input').removeClass("input-item-error");
         $('#popup-username-input').removeClass("input-item-error");
         $('#popup-password-input').removeClass("input-item-error");
     }
@@ -160,16 +142,15 @@ $(function() {
         var formData = $(popupForm).serialize();     
         $.ajax({
             type: 'POST',
-            url: "volunteer-view-create.php",
+            url: "admins-view-create.php",
             data: formData
         }).done(function(response) {
-            if (validateFilterForm()) {
-                submitFilterForm();
-            }
+            debugger;
             popup.css('display', 'none');
             clearPopup();
-            getVolunteerNames();
+            getAdmins();
         }).fail(function(data) {
+            debugger;            
             // todo
         });
     });
@@ -181,16 +162,15 @@ $(function() {
         var formData = $(popupForm).serialize();
         $.ajax({
             type: 'POST',
-            url: "volunteer-view-update.php",
+            url: "admins-view-update.php",
             data: formData
         }).done(function(response) {
-            if (validateFilterForm()) {
-                submitFilterForm();
-            }
+            debugger;
             popup.css('display', 'none');
             clearPopup();
-            getVolunteerNames();
+            getAdmins();
         }).fail(function(data) {
+            debugger;
             // todo
         });
     });
@@ -230,7 +210,7 @@ $(function() {
                     $('#popup-record-id').val($('#row-' + index + '-id').text());
                     $('#popup-lastname-input').val($('#row-' + index + '-lastname').text());
                     $('#popup-firstname-input').val($('#row-' + index + '-firstname').text());
-                    $('#popup-community-service-cb').prop('checked', $('#row-' + index + '-community-service').text().toUpperCase() == "YES");
+                    $('#popup-admin-level-input').val($('#row-' + index + '-admin-level').text());
                     $('#popup-username-input').val($('#row-' + index + '-username').text());
 
                     popup.css('display', 'block');
@@ -242,21 +222,5 @@ $(function() {
         bodyToReplace.replaceWith($(tbody));
     }
 
-    function getVolunteerNames() {
-        $.ajax({
-            type: 'GET',
-            url: "get-volunteer-names.php"
-        }).done(function(response) {
-            $("#names-list").empty();
-            var namesList = JSON.parse(response);
-            for (var key in namesList) {
-                var name = namesList[key];
-                $("#names-list").append("<option value='" + name + "'>");
-            }
-        }).fail(function(data) {
-            // todo
-        });
-    }
-
-    getVolunteerNames();
+    getAdmins();
 });

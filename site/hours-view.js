@@ -184,6 +184,17 @@ $(function() {
         $('#popup-time-input').val("");
         $('#popup-department-select').val("default");
         $('#popup-assignment-select').val("default");
+
+        $('#popup-record-id').removeClass("input-item-error");
+        $('#popup-date-input').removeClass("input-item-error");
+        $('#popup-name-input').removeClass("input-item-error");
+        $('#popup-username-input').removeClass("input-item-error");
+        $('#popup-cs-select').removeClass("input-item-error");
+        $('#popup-group-size-input').removeClass("input-item-error");
+        $('#popup-punch-type-select').removeClass("input-item-error");
+        $('#popup-time-input').removeClass("input-item-error");
+        $('#popup-department-select').removeClass("input-item-error");
+        $('#popup-assignment-select').removeClass("input-item-error");
     }
 
     popupCancelButton.click(function() {
