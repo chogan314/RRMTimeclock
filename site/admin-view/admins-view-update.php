@@ -5,10 +5,10 @@ if (!isset($_SESSION['admin-id'])) {
     exit();
 }
 
-// if (!isset($_SESSION['admin-level']) || $_SESSION['admin-level'] < 5) {
-//     header("Location: admin-signin.php");
-//     exit();
-// }
+if (!isset($_SESSION['admin-level']) || $_SESSION['admin-level'] < 5) {
+    header("Location: admin-signin.php");
+    exit();
+}
 
 require_once('mysqli_connect.php');
 require_once('utils.php');

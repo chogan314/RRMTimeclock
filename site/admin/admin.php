@@ -25,7 +25,11 @@ if (!isset($_SESSION['admin-id'])) {
                 <a href="hours-view.php" class="input-item">Edit Hours</a>
                 <a href="departments-view.php" class="input-item">Edit Departments</a>
                 <a href="assignments-view.php" class="input-item">Edit Assignments</a>
-                <a href="admins-view.php" class="input-item">Edit Admins</a>
+                <?php
+                    if ($_SESSION["admin-level"] >= 5) {
+                        echo '<a href="admins-view.php" class="input-item">Edit Admins</a>';
+                    }
+                ?>
                 <a href="admin-signout.php" class="input-item">Logout</a>
             </div>
         </div>

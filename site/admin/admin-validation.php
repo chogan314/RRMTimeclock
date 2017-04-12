@@ -6,7 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = sanitizeInput(getPostParam("username"), $dbc);
     $password = sanitizeInput(getPostParam("password"), $dbc);
 
-    $query = "SELECT volunteer_id, password_hash FROM volunteers WHERE username='{$username}'";
+    $query = "SELECT admin_id, password_hash, admin_level FROM admins WHERE username='{$username}';";
     $response = mysqli_query($dbc, $query);
 
     if (!$response) {
@@ -30,12 +30,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die();
     }
 
-    $volunteerId = $row['volunteer_id'];
+
     session_start();
-    $_SESSION["username"] = $username;
-    $_SESSION["id"] = $volunteerId;
+    $_SESSION["admin-username"] = $username;
+    $_SESSION["admin-id"] = $row['admin_id'];
+    $_SESSION["admin-level"] = $row['admin_level'];
     http_response_code(200);
-    echo "user-form.php";
+    echo "admin.php";
 }
 
 mysqli_close($dbc);
