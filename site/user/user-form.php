@@ -67,7 +67,7 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 <head>
     <meta charset="UTF-8">
     <title>User Form</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../global/style.css">
     <link rel="stylesheet" href="user-form.css">
 </head>
 
@@ -139,8 +139,8 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
             </div>
         </div>
     </div>
-    <script src="jquery-3.1.1.min.js"></script>
-    <script src="moment.js"></script>
+    <script src="../global/jquery-3.1.1.min.js"></script>
+    <script src="../global/moment.js"></script>
     <?php
     $punchedInInt = (int)$punchedIn;
     echo <<<EOT
@@ -151,7 +151,7 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
     </script>
 EOT;
     ?>
-    <script src="validate.js"></script>
+    <script src="../global/validate.js"></script>
     <script src="user-form.js"></script>
 </body>
 
