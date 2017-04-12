@@ -1,12 +1,12 @@
 <?php
 session_start();
 if (!isset($_SESSION['admin-id'])) {
-    header("Location: admin-signin.php");
+    header("Location: ../admin-signin.php");
     exit();
 }
 
-require_once('mysqli_connect.php');
-require_once('utils.php');
+require_once('../../global/mysqli_connect.php');
+require_once('../../global/utils.php');
 
 $departments = [];
 
@@ -27,7 +27,7 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
     <meta charset="UTF-8">
     <title>Report</title>
     <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../global/style.css">
     <link rel="stylesheet" href="hours-report.css">
 </head>
 
@@ -35,8 +35,8 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
     <div id="content">
         <div class="column">
             <div class="row section row-menu">
-                <a href="admin.php" class="input-button">Back</a>
-                <a href="admin-signout.php" class="input-button">Signout</a>
+                <a href="../admin.php" class="input-button">Back</a>
+                <a href="../admin-signout.php" class="input-button">Signout</a>
             </div>
             <form class="section row row-form" id="filter-form" action="hours-report-filter.php" method="get">
                 <div>Showing results for</div>
@@ -101,8 +101,8 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
             </div>
         </div>
     </div>
-    <script src="jquery-3.1.1.min.js"></script>
-    <script src="validate.js"></script>
+    <script src="../../global/jquery-3.1.1.min.js"></script>
+    <script src="../../global/validate.js"></script>
     <script src="hours-report.js"></script>
 </body>
 

@@ -5,8 +5,8 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
-require_once('mysqli_connect.php');
-require_once('utils.php');
+require_once('../global/mysqli_connect.php');
+require_once('../global/utils.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $startDate = sanitizeInput(getGetParam("start-date"), $dbc);

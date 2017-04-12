@@ -2,12 +2,12 @@
 <?php
 session_start();
 if (!isset($_SESSION['admin-id'])) {
-    header("Location: admin-signin.php");
+    header("Location: ../admin-signin.php");
     exit();
 }
 
-require_once('mysqli_connect.php');
-require_once('utils.php');
+require_once('../../global/mysqli_connect.php');
+require_once('../../global/utils.php');
 
 $departments = [];
 $departmentIds = [];
@@ -41,15 +41,15 @@ if ($result) {
 <head>
     <meta charset="UTF-8">
     <title>Hours View</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../global/style.css">
     <link rel="stylesheet" href="hours-view.css">
 </head>
 <body>
     <div id="content">
         <div class="column">
             <div class="row section row-menu">
-                <a href="admin.php" class="input-button">Back</a>
-                <a href="admin-signout.php" class="input-button">Signout</a>
+                <a href="../admin.php" class="input-button">Back</a>
+                <a href="../admin-signout.php" class="input-button">Signout</a>
             </div>
             <form action="hours-view-filter.php" class="row section row-form" id="filter-form">
                 <div>Showing results for</div>
@@ -166,7 +166,7 @@ if ($result) {
         </div>
     </div>
 
-    <script src="jquery-3.1.1.min.js"></script>
+    <script src="../../global/jquery-3.1.1.min.js"></script>
     <?php
     $departmentIdsJSON = json_encode($departmentIds);
     $assignmentIdsJSON = json_encode($assignmentIds);
@@ -177,7 +177,7 @@ if ($result) {
     </script>
 EOT
     ?>
-    <script src="validate.js"></script>
+    <script src="../../global/validate.js"></script>
     <script src="hours-view.js"></script>
 </body>
 </html>

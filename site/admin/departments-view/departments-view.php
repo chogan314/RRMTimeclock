@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['admin-id'])) {
-    header("Location: admin-signin.php");
+    header("Location: ../admin-signin.php");
     exit();
 }
 
@@ -14,15 +14,15 @@ if (!isset($_SESSION['admin-id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Departments View</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../global/style.css">
     <link rel="stylesheet" href="departments-view.css">
 </head>
 <body>
     <div id="content">
         <div class="column">
             <div class="row section row-menu">
-                <a href="admin.php" class="input-button">Back</a>
-                <a href="admin-signout.php" class="input-button">Signout</a>
+                <a href="../admin.php" class="input-button">Back</a>
+                <a href="../admin-signout.php" class="input-button">Signout</a>
             </div>
             <form action="departments-view-create.php" class="row section create-record-section" id="create-form">
                 <div>Create new department record:</div>
@@ -61,8 +61,8 @@ if (!isset($_SESSION['admin-id'])) {
             </div>
         </div>
     </div>
-    <script src="jquery-3.1.1.min.js"></script>
-    <script src="validate.js"></script>
+    <script src="../../global/jquery-3.1.1.min.js"></script>
+    <script src="../../global/validate.js"></script>
     <script src="departments-view.js"></script>
 </body>
 </html>

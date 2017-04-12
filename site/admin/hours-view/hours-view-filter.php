@@ -1,13 +1,13 @@
 <?php
 session_start();
 if (!isset($_SESSION['admin-id'])) {
-    header("Location: admin-signin.php");
+    header("Location: ../admin-signin.php");
     exit();
 }
 
-require_once('mysqli_connect.php');
-require_once('utils.php');
-require_once('dbutils.php');
+require_once('../../global/mysqli_connect.php');
+require_once('../../global/utils.php');
+require_once('../../global/dbutils.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     /*

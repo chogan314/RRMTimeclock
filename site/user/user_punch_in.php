@@ -5,8 +5,8 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
-require_once('mysqli_connect.php');
-require_once('utils.php');
+require_once('../global/mysqli_connect.php');
+require_once('../global/utils.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $volunteerId = $_SESSION['id'];

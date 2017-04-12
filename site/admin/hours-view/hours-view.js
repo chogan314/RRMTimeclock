@@ -291,7 +291,7 @@ $(function() {
     function getVolunteerNames() {
         $.ajax({
             type: 'GET',
-            url: "get-volunteer-names.php"
+            url: "../../global/get-volunteer-names.php"
         }).done(function(response) {
             $("#names-list").empty();
             $("#popup-names-list").empty();
@@ -309,7 +309,7 @@ $(function() {
     function getVolunteerUsernames() {
         $.ajax({
             type: 'GET',
-            url: "get-volunteer-usernames.php"
+            url: "../../global/get-volunteer-usernames.php"
         }).done(function(response) {
             $("#popup-usernames-list").empty();
             var namesList = JSON.parse(response);

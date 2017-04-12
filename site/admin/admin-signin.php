@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Admin signin</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../global/style.css">
     <link rel="stylesheet" href="admin-signin.css">
 </head>
 <body>
@@ -19,7 +19,7 @@
             </form>
         </div>
     </div>
-    <script src="jquery-3.1.1.min.js"></script>
+    <script src="../global/jquery-3.1.1.min.js"></script>
     <script>
         var form = $('#admin-signin-form');
         $(form).submit(function(event) {

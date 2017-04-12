@@ -1,12 +1,12 @@
 <?php
 session_start();
 if (!isset($_SESSION['admin-id'])) {
-    header("Location: admin-signin.php");
+    header("Location: ../admin-signin.php");
     exit();
 }
 
 if (!isset($_SESSION['admin-level']) || $_SESSION['admin-level'] < 5) {
-    header("Location: admin-signin.php");
+    header("Location: ../admin.php");
     exit();
 }
 
@@ -17,15 +17,15 @@ if (!isset($_SESSION['admin-level']) || $_SESSION['admin-level'] < 5) {
 <head>
     <meta charset="UTF-8">
     <title>Admins View</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../global/style.css">
     <link rel="stylesheet" href="admins-view.css">
 </head>
 <body>
     <div id="content">
         <div class="column">
             <div class="row section row-menu">
-                <a href="admin.php" class="input-button">Back</a>
-                <a href="admin-signout.php" class="input-button">Signout</a>
+                <a href="../admin.php" class="input-button">Back</a>
+                <a href="../admin-signout.php" class="input-button">Signout</a>
             </div>
             <div class="row section create-record-section">
                 <div>Create new admin record:</div>
@@ -82,8 +82,8 @@ if (!isset($_SESSION['admin-level']) || $_SESSION['admin-level'] < 5) {
             </div>
         </div>
     </div>
-    <script src="jquery-3.1.1.min.js"></script>
-    <script src="validate.js"></script>
+    <script src="../../global/jquery-3.1.1.min.js"></script>
+    <script src="../../global/validate.js"></script>
     <script src="admins-view.js"></script>
 </body>
 </html>

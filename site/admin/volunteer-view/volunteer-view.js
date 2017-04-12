@@ -245,7 +245,7 @@ $(function() {
     function getVolunteerNames() {
         $.ajax({
             type: 'GET',
-            url: "get-volunteer-names.php"
+            url: "../../global/get-volunteer-names.php"
         }).done(function(response) {
             $("#names-list").empty();
             var namesList = JSON.parse(response);

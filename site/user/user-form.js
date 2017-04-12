@@ -127,7 +127,7 @@ $(function() {
     $('#logout').click(function() {
         $.ajax({
             type: 'POST',
-            url: "signout.php"
+            url: "../global/signout.php"
         }).done(function(response) {
             window.location.replace("signin.html");
         }).fail(function(data) {

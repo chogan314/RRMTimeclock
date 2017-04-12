@@ -5,8 +5,8 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
-require_once('mysqli_connect.php');
-require_once('utils.php');
+require_once('../global/mysqli_connect.php');
+require_once('../global/utils.php');
 
 $username = $_SESSION['username'];
 $query = "SELECT volunteer_id, last_name, first_name FROM volunteers WHERE username = '{$username}';";
