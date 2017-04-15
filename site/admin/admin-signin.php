@@ -19,6 +19,9 @@
             </form>
         </div>
     </div>
+    <div id="temp">
+        <a href="../user/signin.html">To User Signin</a>
+    </div>
     <script src="../global/jquery-3.1.1.min.js"></script>
     <script>
         var form = $('#admin-signin-form');

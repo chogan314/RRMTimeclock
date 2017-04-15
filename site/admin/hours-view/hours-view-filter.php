@@ -108,7 +108,7 @@ EOT;
     $invalidUsers = [];
     foreach ($userData as $punchRecords) {
         if (!verifyPunches($punchRecords)) {
-            $invalidUsers[] = $punchRecords['username'];
+            $invalidUsers[] = $punchRecords[0]['username'];
         }
     }
 

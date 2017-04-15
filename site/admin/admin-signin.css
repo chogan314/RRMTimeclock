@@ -31,3 +31,10 @@
     width: 70%;
     margin-top: 20px;
 }
+
+#temp {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    background-color: antiquewhite;
+}
