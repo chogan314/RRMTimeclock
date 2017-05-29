@@ -107,11 +107,6 @@ $(function() {
         });
     }
 
-    function validateFilterForm() {
-        // todo
-        return false;
-    }
-
     $(filterForm).submit(function(event) {
         event.preventDefault();
         submitFilterForm();
@@ -163,12 +158,10 @@ $(function() {
             url: "volunteer-view-create.php",
             data: formData
         }).done(function(response) {
-            if (validateFilterForm()) {
-                submitFilterForm();
-            }
             popup.css('display', 'none');
             clearPopup();
             getVolunteerNames();
+            submitFilterForm();
         }).fail(function(data) {
             // todo
         });
@@ -184,12 +177,10 @@ $(function() {
             url: "volunteer-view-update.php",
             data: formData
         }).done(function(response) {
-            if (validateFilterForm()) {
-                submitFilterForm();
-            }
             popup.css('display', 'none');
             clearPopup();
             getVolunteerNames();
+            submitFilterForm();
         }).fail(function(data) {
             // todo
         });

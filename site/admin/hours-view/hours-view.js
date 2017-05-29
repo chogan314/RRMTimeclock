@@ -152,7 +152,6 @@ $(function() {
             url: $(filterForm).attr('action'),
             data: formData
         }).done(function(response) {
-            debugger;
             var data = JSON.parse(response);
             populateTable(data.tdata, $("#result-body"));
         }).fail(function(data) {
@@ -214,6 +213,7 @@ $(function() {
         }).done(function(response) {
             popup.css('display', 'none');
             clearPopup();
+            submitFilterForm();
         }).fail(function(data) {
             // todo
         });
@@ -231,6 +231,7 @@ $(function() {
         }).done(function(response) {
             popup.css('display', 'none');
             clearPopup();
+            submitFilterForm();
         }).fail(function(data) {
             // todo
         });
