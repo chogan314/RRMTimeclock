@@ -66,6 +66,10 @@ a {
     margin-top: 20px;
 }
 
+.column-center {
+    align-items: center;
+}
+
 .row {
     display: flex;
     justify-content: center;
@@ -78,6 +82,10 @@ a {
 
 .row>*:first-child {
     margin-left: 20px;
+}
+
+.row-center {
+    align-items: center;
 }
 
 table {

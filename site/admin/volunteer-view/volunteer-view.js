@@ -162,6 +162,7 @@ $(function() {
             clearPopup();
             getVolunteerNames();
             submitFilterForm();
+            $("#popup-create-confirm").show();
         }).fail(function(data) {
             // todo
         });
@@ -184,6 +185,10 @@ $(function() {
         }).fail(function(data) {
             // todo
         });
+    });
+
+    $("#popup-create-confirm-close").click(function() {
+        $("#popup-create-confirm").hide();
     });
 
     function populateTable(tableData, bodyToReplace) {
