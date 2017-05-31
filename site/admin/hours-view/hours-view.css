@@ -15,3 +15,7 @@
 #popup-edit-button {
     display: none;
 }
+
+#popup-create-confirm {
+    display: none;
+}

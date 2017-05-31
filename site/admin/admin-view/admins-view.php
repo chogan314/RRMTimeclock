@@ -31,6 +31,9 @@ if (!isset($_SESSION['admin-level']) || $_SESSION['admin-level'] < 5) {
                 <div>Create new admin record:</div>
                 <div class="input-button" id="open-create-popup">Create</div>
             </div>
+            <div class="row section create-record-section">
+                <div>Admin level >= 5 allows for editing of other admins.</div>
+            </div>
             <div class="section">
                 <table class="hide-first-column">
                     <thead>

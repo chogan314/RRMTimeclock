@@ -165,7 +165,18 @@ if ($result) {
             </div>
         </div>
     </div>
-
+    <div class="popup-form-container" id="popup-create-confirm">
+        <div class="popup-form-content">
+            <div class="popup-form-wrapper">
+                <div class="section row">
+                    <div class="column column-center">
+                        <div>Record created.</div>
+                        <div class="input-button" id="popup-create-confirm-close">Ok</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="../../global/jquery-3.1.1.min.js"></script>
     <?php
     $departmentIdsJSON = json_encode($departmentIds);

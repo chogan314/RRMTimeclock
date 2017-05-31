@@ -98,7 +98,7 @@ function validatePassword(str, allowEmpty = false, extraCharacters = []) {
     if (str === "" && allowEmpty) {
         return true;
     }
-    var reg = /^\S{8,60}$/;
+    var reg = /^\S{1,60}$/;
     return reg.test(str);
 }
 

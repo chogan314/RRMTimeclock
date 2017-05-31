@@ -255,4 +255,5 @@ $(function() {
     }
 
     getVolunteerNames();
+    submitFilterForm();
 });
